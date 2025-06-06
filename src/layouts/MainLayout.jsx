@@ -1,11 +1,19 @@
+
 import { Box, CssBaseline } from "@mui/material";
 import Header from "../global-components/layout/Header";
 import SidebarLeft from "../global-components/layout/SidebarLeft";
 import SidebarRight from "../global-components/layout/SidebarRight";
 import Footer from "../global-components/layout/Footer";
 
-
-export default function MainLayout({ children, showFullHeader = false, user, onLogout }) {
+export default function MainLayout({
+                                       children,
+                                       showFullHeader = false,
+                                       user,
+                                       onLogout,
+                                       onModuleChange,
+                                       activeModule,
+                                       onPageChange  // NEU: Callback für Page-Wechsel
+                                   }) {
     return (
         <Box sx={{ display: "flex", minHeight: "100vh" }}>
             <CssBaseline />
@@ -14,8 +22,15 @@ export default function MainLayout({ children, showFullHeader = false, user, onL
                 showFullHeader={showFullHeader}
                 user={user}
                 onLogout={onLogout}
+                onModuleChange={onModuleChange}
+                activeModule={activeModule}
             />
-            <SidebarLeft />
+
+            <SidebarLeft
+                activeModule={activeModule}
+                onPageChange={onPageChange}  // NEU: Weiterleitung an SidebarLeft
+            />
+
             <SidebarRight />
 
             <Box

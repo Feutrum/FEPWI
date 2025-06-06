@@ -58,10 +58,116 @@ const API_BASE_URL = 'http://localhost:1337/api'; // Später echte Strapi URL
 // =================================================================
 
 /**
+ * MOCK USER DATA LOADER
+ *
+ * Lädt Benutzerdaten aus JSON-Dateien für realistische Authentifizierung
+ * Ersetzt hardcodierte Mock-User durch externe JSON-Files
+ *
+ * @param {string} identifier - Email-Adresse für User-Lookup
+ * @returns {Promise<Object>} Mock JWT Response mit User-Daten
+ *
+ * SUPPORTED JSON FILES:
+ * - admin.json: Vollzugriff (alle 5 Module)
+ * - worker.json: Eingeschränkt (nur Lager + Vertrieb)
+ * - Fallback: Legacy Developer-Account
+ */
+const loadMockUser = async (identifier) => {
+    try {
+        // Email zu JSON-Datei Mapping
+        const userFileMap = {
+            'admin@test.com': () => import('../data/mock-users/admin.json'),
+            'worker@test.com': () => import('../data/mock-users/worker.json')
+        };
+
+        const userLoader = userFileMap[identifier];
+        if (userLoader) {
+            const userData = await userLoader();
+            const response = userData.default;
+
+            // JWT-Token mit Timestamp für Eindeutigkeit
+            response.jwt = response.jwt + Date.now();
+            return response;
+        }
+
+        // Fallback für unbekannte User - Legacy Support
+        return {
+            jwt: 'mock-jwt-token-dev-' + Date.now(),
+            user: {
+                id: 99,
+                username: 'developer',
+                email: 'dev@test.com',
+                confirmed: true,
+                blocked: false,
+                roles: ['carpool', 'warehouse', 'hr', 'sales', 'farm-management']
+            }
+        };
+
+    } catch (error) {
+        console.error('Fehler beim Laden der Mock-User-Daten:', error);
+
+        // Hard-coded Fallback falls JSON-Loading fehlschlägt
+        return {
+            jwt: 'mock-jwt-token-fallback-' + Date.now(),
+            user: {
+                id: 1,
+                username: 'fallback',
+                email: 'fallback@test.com',
+                confirmed: true,
+                blocked: false,
+                roles: ['farm-management']
+            }
+        };
+    }
+};
+
+/**
+ * MOCK MODULE DATA LOADER
+ *
+ * Lädt Mock-Daten aus JSON-Dateien für verschiedene Module
+ * Ermöglicht realistische Datenstrukturen ohne Backend-Abhängigkeit
+ *
+ * @param {string} endpoint - API Endpoint für Daten-Lookup
+ * @returns {Promise<Object>} Mock Module Response mit Daten-Array
+ *
+ * SUPPORTED ENDPOINTS:
+ * - /farm/fields: Feld-Management Daten
+ * - Weitere Module können hinzugefügt werden
+ */
+const loadMockModuleData = async (endpoint) => {
+    try {
+        // Mapping von API-Endpoints zu JSON-Dateien
+        const mockDataMap = {
+            '/farm/fields': () => import('../data/mock-module-dummys/pflanzenmanagement/fields.json')
+        };
+
+        const dataLoader = mockDataMap[endpoint];
+        if (dataLoader) {
+            const moduleData = await dataLoader();
+            return moduleData.default;
+        }
+
+        // Fallback für unbekannte Endpoints
+        return {
+            data: [],
+            message: `Mock-Daten für ${endpoint} nicht gefunden`,
+            endpoint: endpoint
+        };
+
+    } catch (error) {
+        console.error('Fehler beim Laden der Mock-Modul-Daten:', error);
+        return {
+            data: [],
+            error: 'Mock-Daten konnten nicht geladen werden',
+            endpoint: endpoint
+        };
+    }
+};
+
+/**
  * MOCK RESPONSES CONFIGURATION
  *
- * Simuliert Backend-Responses für entwicklung ohne echtes Backend
- * Ermöglicht vollständige Frontend-Entwicklung und Testing
+ * Legacy Mock-System für Backwards-Kompatibilität
+ * Wird schrittweise durch JSON-basierte Loader ersetzt
  *
  * STRUCTURE:
  * - Key: API Endpoint (z.B. '/auth/local')
@@ -81,96 +187,21 @@ const mockResponses = {
      * AUTHENTICATION MOCK ENDPOINT
      *
      * Simuliert Strapi '/auth/local' Endpoint
-     * Unterstützt verschiedene User-Rollen für umfassendes Testing
+     * Delegiert an JSON-basierte User-Loader
      *
      * @param {Object} credentials - Login-Daten
      * @param {string} credentials.identifier - Email (Strapi-Standard)
      * @param {string} credentials.password - Passwort
-     * @returns {Object} Mock JWT Response
+     * @returns {Promise<Object>} Mock JWT Response
      *
      * SUPPORTED TEST USERS:
      * 1. admin@test.com - Vollzugriff (alle 5 Module)
      * 2. worker@test.com - Eingeschränkt (nur Lager + Vertrieb)
-     * 3. dev@test.com - Legacy-Support (Vollzugriff)
+     * 3. Fallback - Legacy Developer-Account
      */
-    '/auth/local': (credentials) => {
+    '/auth/local': async (credentials) => {
         const { identifier } = credentials;
-
-        /**
-         * ADMIN USER MOCK - Vollzugriff Simulation
-         *
-         * Simuliert Administrator mit allen Systemberechtigungen
-         *
-         * ROLES ARRAY:
-         * - carpool: Fahrgemeinschafts-Verwaltung
-         * - warehouse: Lager-Management
-         * - hr: Human Resources / Personalwesen
-         * - sales: Vertrieb und Verkauf
-         * - farm-management: Landwirtschafts-Management
-         *
-         * JWT TOKEN:
-         * Mock-Token mit Timestamp für Eindeutigkeit
-         * Format: 'mock-jwt-token-admin-{timestamp}'
-         */
-        if (identifier === 'admin@test.com') {
-            return {
-                jwt: 'mock-jwt-token-admin-' + Date.now(),
-                user: {
-                    id: 1,
-                    username: 'admin',
-                    email: 'admin@test.com',
-                    confirmed: true,           // Strapi Email-Bestätigung
-                    blocked: false,            // Strapi User-Blocking Status
-                    roles: ['carpool', 'warehouse', 'hr', 'sales', 'farm-management']
-                }
-            };
-        }
-
-        /**
-         * LIMITED USER MOCK - Eingeschränkte Rechte
-         *
-         * Simuliert Worker mit begrenzten Systemberechtigungen
-         * Nur Zugriff auf Lager (warehouse) und Vertrieb (sales)
-         *
-         * TESTING PURPOSE:
-         * Verifiziert dass rollenbasierte Zugriffskontrolle funktioniert
-         * UI sollte nur entsprechende Menüpunkte anzeigen
-         */
-        if (identifier === 'worker@test.com') {
-            return {
-                jwt: 'mock-jwt-token-worker-' + Date.now(),
-                user: {
-                    id: 2,
-                    username: 'worker',
-                    email: 'worker@test.com',
-                    confirmed: true,
-                    blocked: false,
-                    roles: ['warehouse', 'sales']  // Nur 2 von 5 Modulen
-                }
-            };
-        }
-
-        /**
-         * FALLBACK / LEGACY USER MOCK
-         *
-         * Backwards-Kompatibilität für bestehenden Entwicklungscode
-         * Behandelt alle anderen Login-Versuche als Developer-Account
-         *
-         * DESIGN DECISION:
-         * Graceful Fallback verhindert Entwicklungsunterbrechungen
-         * bei unerwarteten Email-Adressen
-         */
-        return {
-            jwt: 'mock-jwt-token-' + Date.now(),
-            user: {
-                id: 1,
-                username: 'developer',
-                email: 'dev@test.com',
-                confirmed: true,
-                blocked: false,
-                roles: ['carpool', 'warehouse', 'hr', 'sales', 'farm-management']
-            }
-        };
+        return await loadMockUser(identifier);
     }
 };
 
@@ -285,13 +316,13 @@ export const api = {
              * MOCK AUTHENTICATION HANDLING
              *
              * Spezielle Behandlung für Login-Requests
-             * Verwendet Mock-Response statt echten API-Call
+             * Verwendet JSON-basierte Mock-User-Loader
              *
              * CONDITION: POST-Request an '/auth/local'
              * ACTION: Delegiert an mockResponses['/auth/local']
              */
             if (method === 'POST' && endpoint === '/auth/local') {
-                return mockResponses['/auth/local'](data);
+                return await mockResponses['/auth/local'](data);
             }
 
             /**
@@ -317,6 +348,19 @@ export const api = {
             }
 
             /**
+             * MOCK MODULE DATA HANDLING
+             *
+             * Spezielle Behandlung für GET-Requests
+             * Verwendet JSON-basierte Mock-Module-Loader
+             *
+             * CONDITION: GET-Request
+             * ACTION: Delegiert an loadMockModuleData
+             */
+            if (method === 'GET') {
+                return await loadMockModuleData(endpoint);
+            }
+
+            /**
              * FALLBACK MOCK RESPONSE
              *
              * Standard-Response für alle anderen Endpoints
@@ -325,7 +369,12 @@ export const api = {
              * RETURN: Generic Success Response
              * In echter Implementation: fetch() oder axios() Call
              */
-            return { success: true, data: 'Mock response' };
+            return {
+                success: true,
+                data: 'Mock response',
+                method: method,
+                endpoint: endpoint
+            };
 
         } catch (error) {
             /**
@@ -401,7 +450,7 @@ export const api = {
     /**
      * HTTP GET METHOD
      *
-     * Convenience-Method für GET-Requests
+     * Methode für GET-Requests
      *
      * @param {string} endpoint - API Endpoint
      * @returns {Promise<Object>} API Response
@@ -414,7 +463,7 @@ export const api = {
     /**
      * HTTP POST METHOD
      *
-     * Convenience-Method für POST-Requests mit Request Body
+     * Methode für POST-Requests mit Request Body
      *
      * @param {string} endpoint - API Endpoint
      * @param {Object} data - Request Body Data
@@ -428,7 +477,7 @@ export const api = {
     /**
      * HTTP PUT METHOD
      *
-     * Convenience-Method für PUT-Requests (Updates)
+     * Methode für PUT-Requests (Updates)
      *
      * @param {string} endpoint - API Endpoint
      * @param {Object} data - Update Data
@@ -442,7 +491,7 @@ export const api = {
     /**
      * HTTP DELETE METHOD
      *
-     * Convenience-Method für DELETE-Requests
+     * Methode für DELETE-Requests
      *
      * @param {string} endpoint - API Endpoint
      * @returns {Promise<Object>} API Response

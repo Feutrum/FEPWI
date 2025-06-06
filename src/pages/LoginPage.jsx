@@ -128,7 +128,7 @@ export default function LoginPage() {
      */
     useEffect(() => {
         if (isAuthenticated) {
-            console.log('🚀 Login erfolgreich - Redirect zu Dashboard');
+            console.log('Login erfolgreich - Redirect zu Dashboard');
             navigate('/', { replace: true });
         }
     }, [isAuthenticated, navigate]);
@@ -171,7 +171,7 @@ export default function LoginPage() {
      * ENTWICKLUNGSZWECK: Wird in Produktion entfernt
      */
     const handleAdminLogin = () => {
-        console.log('🔑 Admin Login - Alle Menüs sichtbar');
+        console.log('Admin Login - Alle Menüs sichtbar');
         devLoginAdmin(); // Ruft Demo-Login aus AuthContext auf
     };
 
@@ -184,7 +184,7 @@ export default function LoginPage() {
      * ZWECK: Testen der rollenbasierten Menü-Anzeige
      */
     const handleLimitedLogin = () => {
-        console.log('🔒 Limited Login - Nur Lager & Vertrieb sichtbar');
+        console.log('Limited Login - Nur Lager & Vertrieb sichtbar');
         devLoginLimited(); // Ruft Demo-Login mit begrenzten Rechten auf
     };
 
@@ -264,7 +264,7 @@ export default function LoginPage() {
 
                         {/* Demo-Sektion Überschrift */}
                         <Typography variant="h6" sx={{ mb: 2 }}>
-                            🧪 Demo Logins
+                            Demo Logins
                         </Typography>
 
                         {/**
@@ -283,7 +283,7 @@ export default function LoginPage() {
                             fullWidth
                             sx={{ mb: 1 }}
                         >
-                            👑 Full View Developer Login
+                            Full View Developer Login
                         </Button>
 
                         {/* Erklärungstext für Admin-Login */}
@@ -305,7 +305,7 @@ export default function LoginPage() {
                             fullWidth
                             sx={{ mb: 1 }}
                         >
-                            🔒 Limited Role Test Login
+                            Limited Role Test Login
                         </Button>
 
                         {/* Erklärungstext für Limited-Login */}
@@ -323,7 +323,7 @@ export default function LoginPage() {
                     </Box>
 
                     {/* =================================================================
-                        NORMALER LOGIN FORM
+                        NORMALE LOGIN FORM
                         ================================================================= */}
 
                     {/**

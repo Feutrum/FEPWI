@@ -41,9 +41,11 @@ import { LogoutOutlined, AccountCircle } from "@mui/icons-material";
  * @param {boolean} props.showFullHeader - Vollständige Navigation anzeigen
  * @param {Object} props.user - Aktueller Benutzer mit Rollen
  * @param {Function} props.onLogout - Logout-Handler Funktion
+ * @param {Function} props.onModuleChange - Handler für Modul-Navigation
+ * @param {string} props.activeModule - Aktuell aktives Modul
  * @returns {ReactElement} Header-Komponente mit Navigation
  */
-export default function Header({ showFullHeader, user, onLogout }) {
+export default function Header({ showFullHeader, user, onLogout, onModuleChange, activeModule }) {
 
     /**
      * MENU ITEMS DEFINITION
@@ -53,11 +55,11 @@ export default function Header({ showFullHeader, user, onLogout }) {
      * angezeigt wenn der Benutzer die entsprechende Rolle besitzt.
      */
     const menuItems = [
-        { label: "Feld- & Pflanzenmanagement", requiredRole: "farm-management" },
-        { label: "Fuhrpark", requiredRole: "carpool" },
-        { label: "Lager", requiredRole: "warehouse" },
-        { label: "Personal", requiredRole: "hr" },
-        { label: "Vertrieb", requiredRole: "sales" },
+        { label: "Feld- & Pflanzenmanagement", requiredRole: "farm-management", moduleKey: "pflanzenmanagement" },
+        { label: "Fuhrpark", requiredRole: "carpool", moduleKey: "fuhrpark" },
+        { label: "Lager", requiredRole: "warehouse", moduleKey: "lagerhaltung" },
+        { label: "Personal", requiredRole: "hr", moduleKey: "personal" },
+        { label: "Vertrieb", requiredRole: "sales", moduleKey: "vertrieb" },
     ];
 
     /**
@@ -95,7 +97,14 @@ export default function Header({ showFullHeader, user, onLogout }) {
                             transform: 'translateX(-50%)'
                         }}>
                             {visibleMenuItems.map((item, idx) => (
-                                <Button key={idx} color="inherit">
+                                <Button
+                                    key={idx}
+                                    color="inherit"
+                                    onClick={() => onModuleChange?.(item.moduleKey)}
+                                    sx={{
+                                        backgroundColor: activeModule === item.moduleKey ? 'rgba(255,255,255,0.2)' : 'transparent'
+                                    }}
+                                >
                                     {item.label}
                                 </Button>
                             ))}
@@ -149,6 +158,8 @@ export default function Header({ showFullHeader, user, onLogout }) {
  *   showFullHeader={true}
  *   user={{ email: 'user@example.com', roles: ['warehouse', 'sales'] }}
  *   onLogout={() => handleLogout()}
+ *   onModuleChange={(module) => setActiveModule(module)}
+ *   activeModule={'pflanzenmanagement'}
  * />
  * ```
  *

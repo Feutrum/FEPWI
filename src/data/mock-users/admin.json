@@ -1,0 +1,11 @@
+{
+  "jwt": "mock-jwt-token-admin-",
+  "user": {
+    "id": 1,
+    "username": "admin",
+    "email": "admin@test.com",
+    "confirmed": true,
+    "blocked": false,
+    "roles": ["carpool", "warehouse", "hr", "sales", "farm-management"]
+  }
+}
