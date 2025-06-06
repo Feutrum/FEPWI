@@ -1,0 +1,5 @@
+{
+  "name": "styles",
+  "description": "Globale CSS- und SCSS-Dateien für Layout, Typografie und Komponenten",
+  "exports": ["main.css", "theme.css"]
+}

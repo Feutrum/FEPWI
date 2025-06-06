@@ -1,0 +1,5 @@
+{
+  "name": "layouts",
+  "description": "Seitenlayouts mit Routing-Integration (z. B. DashboardLayout, AuthLayout)",
+  "exports": ["DashboardLayout", "ModuleLayout"]
+}

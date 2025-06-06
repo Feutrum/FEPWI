@@ -1,0 +1,5 @@
+{
+  "name": "common-ui",
+  "description": "Wiederverwendbare UI-Komponenten (Buttons, Inputs, Dropdowns, etc.)",
+  "exports": ["Button", "TextField", "Select", "Checkbox"]
+}

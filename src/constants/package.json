@@ -1,0 +1,5 @@
+{
+  "name": "constants",
+  "description": "Globale Konstanten und Konfigurationsobjekte für das ERP-Frontend",
+  "exports": ["Enums", "Optionen", "Typ-Definitionen"]
+}

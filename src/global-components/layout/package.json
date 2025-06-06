@@ -1,0 +1,5 @@
+{
+  "name": "layout-components",
+  "description": "Globale Layout-Bestandteile wie Header, Sidebar, Footer",
+  "exports": ["Header", "Sidebar", "Footer"]
+}

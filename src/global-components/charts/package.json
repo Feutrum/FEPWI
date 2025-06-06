@@ -1,0 +1,6 @@
+{
+  "name": "charts",
+  "description": "Visualisierungskomponenten (z. B. ApexCharts, Diagramme) für globale Verwendung",
+  "dependencies": ["platzhalter"],
+  "exports": ["BarChart", "LineChart", "PieChart"]
+}
