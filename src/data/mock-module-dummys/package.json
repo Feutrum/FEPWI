@@ -1,0 +1,81 @@
+
+{
+  "name": "mock-module-dummys",
+  "version": "1.0.0",
+  "description": "Mock-Daten für Module-Entwicklung ohne Backend-Abhängigkeit",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Feutrum/FEPWI.git"
+  },
+  "private": true,
+  "anleitung": {
+    "title": "ANLEITUNG: Mock-Daten für neue Module erstellen",
+    "beschreibung": "So erstellst du Mock-JSON-Dateien und Services für neue Module",
+
+    "schritt1": {
+      "titel": "JSON Mock-Datei erstellen",
+      "pfad": "/data/mock-module-dummys/{modulname}/",
+      "beispiel": "/data/mock-module-dummys/pflanzenmanagement/fields.json",
+      "struktur": {
+        "data": "Array mit Mock-Objekten",
+        "message": "Optional: Beschreibung der Daten",
+        "endpoint": "API-Endpunkt der simuliert wird"
+      },
+      "beispiel_inhalt": {
+        "data": [
+          {
+            "id": 1,
+            "name": "Feld Nord",
+            "size": 5.2,
+            "crop": "Weizen",
+            "status": "aktiv"
+          }
+        ],
+        "message": "Mock Felder für Pflanzenmanagement",
+        "endpoint": "/farm/fields"
+      }
+    },
+
+    "schritt2": {
+      "titel": "API Service Mock-Mapping erweitern",
+      "datei": "/utils/api.js",
+      "funktion": "loadMockModuleData",
+      "aktion": "Neuen Endpoint in mockDataMap hinzufügen",
+      "beispiel": {
+        "code": "const mockDataMap = { '/farm/fields': () => import('../data/mock-module-dummys/pflanzenmanagement/fields.json'), '/dein/neuer/endpoint': () => import('../data/mock-module-dummys/deinmodul/datei.json') };"
+      }
+    },
+
+    "schritt3": {
+      "titel": "Service-Layer erstellen",
+      "pfad": "/services/{modulname}-service.js",
+      "beispiel": "/services/pflanzen-service.js",
+      "template": {
+        "import": "import { api } from '@/utils/api';",
+        "export": "export const {modulname}Service = { getFunktion: async () => { try { const response = await api.get('/dein/endpoint'); return response.data || []; } catch (error) { console.error('Fehler:', error); throw error; } } };"
+      }
+    },
+
+    "schritt4": {
+      "titel": "Service in Komponente verwenden",
+      "beispiel": {
+        "import": "import { feldService } from '@/services/pflanzen-service';",
+        "usage": "const [daten, setDaten] = useState([]); useEffect(() => { const loadData = async () => { try { const result = await feldService.getAllFields(); setDaten(result); } catch (error) { console.error(error); } }; loadData(); }, []);"
+      }
+    },
+
+    "migration_zu_echter_api": {
+      "titel": "Von Mock zu echter API wechseln",
+      "schritte": [
+        "1. Service-Layer bleibt unverändert",
+        "2. Nur api.js anpassen (echte fetch() Calls)",
+        "3. Mock-Daten als Fallback behalten",
+        "4. Environment-Variable für Mock/Real toggle"
+      ]
+    }
+  }
+}
