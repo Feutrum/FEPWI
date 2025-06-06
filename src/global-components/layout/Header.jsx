@@ -1,4 +1,3 @@
-
 /**
  * =================================================================
  * HEADER COMPONENT - ANWENDUNGS-KOPFZEILE MIT NAVIGATION
@@ -79,16 +78,22 @@ export default function Header({ showFullHeader, user, onLogout }) {
 
     return (
         <AppBar position="fixed" sx={{ zIndex: 1201 }}>
-            <Toolbar>
-                {/* Anwendungstitel */}
-                <Typography variant="h6" sx={{ flexGrow: 1 }}>
+            <Toolbar sx={{ display: 'flex', alignItems: 'center' }}>
+                {/* Anwendungstitel - links */}
+                <Typography variant="h6">
                     ERP Dashboard
                 </Typography>
 
                 {showFullHeader ? (
                     <>
-                        {/* Navigation Buttons - nur sichtbare */}
-                        <Box sx={{ display: 'flex', gap: 1, mr: 2 }}>
+                        {/* Navigation Buttons - zentriert */}
+                        <Box sx={{
+                            display: 'flex',
+                            gap: 1,
+                            position: 'absolute',
+                            left: '50%',
+                            transform: 'translateX(-50%)'
+                        }}>
                             {visibleMenuItems.map((item, idx) => (
                                 <Button key={idx} color="inherit">
                                     {item.label}
@@ -96,9 +101,14 @@ export default function Header({ showFullHeader, user, onLogout }) {
                             ))}
                         </Box>
 
-                        {/* User Info & Logout */}
+                        {/* User Info & Logout - rechts */}
                         {user && onLogout && (
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <Box sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 1,
+                                marginLeft: 'auto'
+                            }}>
                                 <AccountCircle />
                                 <Typography variant="body2" sx={{ mr: 1 }}>
                                     {user.email}
@@ -121,7 +131,7 @@ export default function Header({ showFullHeader, user, onLogout }) {
                     </>
                 ) : (
                     // Minimaler Header für Login-Seite
-                    <Button color="inherit">Login</Button>
+                    <Button color="inherit" sx={{ marginLeft: 'auto' }}>Login</Button>
                 )}
             </Toolbar>
         </AppBar>

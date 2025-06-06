@@ -44,22 +44,33 @@ Installierte Abhängigkeiten:
 
 ## Ordnerstruktur
 # src
-  - constants: Statische Konstanten und Konfigurationen
-  - global-components: Enthält wiederverwendbare Komponenten
-    - /common: generische UI-Komponenten (Buttons, Inputs, etc.)
-    - /charts: generische Diagramm-Komponenten
-    - /layout: generische Layout-Komponenten (Header, Footer, etc.)
-  - layouts: Seitenlayouts, die die Struktur der Seiten definieren
-  - modules: ERP-spezifische Module für die Gruppen
-    - ../components: Dashboard-Komponente
-    - ../pages: Produktverwaltungskomponente
-    - ../services: Bestellverwaltungskomponente
-    - ../AppRoute.jsx: Kundenverwaltungskomponente
-  - router: Bindung der Modulrouten an die Anwendung
-  - styles: Globale Stile und Theme-Konfigurationen
-  - utils: Globale Services und Hilfsfunktionen
-    - /api.js: Einstiegspunkt für API-Anfragen
-  - App.css: Globale CSS-Stile
-  - App.jsx: Hauptkomponente der Anwendung
-  - index.css: Globale CSS-Datei
-  - Main.jsx: Einstiegspunkt der Anwendung
+- assets: Statische Ressourcen (Bilder, Icons, etc.)
+- constants: Statische Konstanten und Konfigurationen
+- contexts: React Context Provider (globaler State)
+    - /AuthContext.jsx: Authentifizierung Context für App-weites Login-Management
+- global-components: Wiederverwendbare UI-Komponenten
+    - /common: Generische UI-Komponenten (Buttons, Inputs, etc.)
+    - /charts: Generische Diagramm-Komponenten
+    - /layout: Layout-Komponenten (Header, Footer, Sidebars)
+        - /Header.jsx: Navigationsleiste mit rollenbasierter Menüanzeige
+- layouts: Seitenlayouts für strukturelle Organisation
+    - /MainLayout.jsx: Hauptlayout mit Header, Sidebars und Footer
+- modules: ERP-spezifische Geschäftsmodule
+    - /components: Modul-spezifische Komponenten
+    - /pages: Seiten für verschiedene ERP-Bereiche
+    - /services: Modul-spezifische Business Logic
+- pages: Hauptseiten der Anwendung
+    - /Dashboard.jsx: Zentrale Übersichtsseite
+    - /LoginPage.jsx: Anmeldeseite mit Authentifizierung
+- router: Routing-Konfiguration und Navigation
+    - /AppRoute.jsx: Hauptrouting mit AuthProvider Integration
+    - /ProtectedRoute.jsx: Zugriffskontrolle für geschützte Bereiche
+- styles: Globale Stile und Theme-Konfigurationen
+- utils: Hilfsfunktionen und Services
+    - /api.js: HTTP-Client für Backend-Kommunikation
+    - /authService.js: Authentifizierungs-Business Logic
+    - /package.json: Utils-spezifische Abhängigkeiten
+- App.css: Komponenten-spezifische Stile
+- App.jsx: Hauptkomponente der Anwendung
+- index.css: Globale Basis-Stile
+- main.jsx: Anwendungs-Einstiegspunkt (Vite)
