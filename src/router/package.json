@@ -1,0 +1,6 @@
+{
+  "name": "router",
+  "description": "Zentrale Routing-Konfiguration mittels React Router",
+  "dependencies": ["react-router-dom"],
+  "exports": ["AppRouter", "ProtectedRoutes"]
+}

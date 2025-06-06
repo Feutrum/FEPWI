@@ -1,0 +1,5 @@
+{
+  "name": "utils",
+  "description": "Hilfsfunktionen (z. B. Formatierungen, Validierungen, Mapping)",
+  "exports": ["dateUtils", "stringUtils", "formUtils"]
+}
