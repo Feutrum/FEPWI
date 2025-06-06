@@ -40,6 +40,7 @@ Installierte Abhängigkeiten:
 - [react-dom](https://reactjs.org/)
 - [vite](https://vitejs.dev/)
 - [mui](https://mui.com/)
+- [apexcharts](https://apexcharts.com/)
 
 ## Ordnerstruktur
 # src
