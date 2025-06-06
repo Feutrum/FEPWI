@@ -54,7 +54,7 @@ Installierte Abhängigkeiten:
     - ../components: Dashboard-Komponente
     - ../pages: Produktverwaltungskomponente
     - ../services: Bestellverwaltungskomponente
-    - ../index.js: Kundenverwaltungskomponente
+    - ../AppRoute.jsx: Kundenverwaltungskomponente
   - router: Bindung der Modulrouten an die Anwendung
   - styles: Globale Stile und Theme-Konfigurationen
   - utils: Globale Services und Hilfsfunktionen

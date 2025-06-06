@@ -1,5 +1,5 @@
 {
   "name": "utils",
-  "description": "Hilfsfunktionen (z. B. Formatierungen, Validierungen, Mapping)",
-  "exports": ["dateUtils", "stringUtils", "formUtils"]
+  "description": "API-Client, Authentifizierung und Session-Management Services",
+  "exports": ["api", "authService"]
 }
