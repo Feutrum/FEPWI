@@ -24,7 +24,7 @@ export default function Dashboard() {
         setActivePage(null); // Reset page when module changes
     };
 
-    // NEU: Handler für Page-Wechsel in Sidebar
+    // Handler für Page-Wechsel in Sidebar
     const handlePageChange = (pageName) => {
         console.log('Page changed to:', pageName);
         setActivePage(pageName);
@@ -52,6 +52,9 @@ export default function Dashboard() {
                 );
         }
     };
+
+
+
 
     return (
         <MainLayout

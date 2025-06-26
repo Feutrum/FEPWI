@@ -18,16 +18,16 @@ export const moduleConfig = {
             reactComponent: KalenderAktivitaeten
         },
         {
-            name: 'Schlag-Übersicht',
-            route: 'schlag-uebersicht',
-            component: 'SchlagUebersicht',
-            reactComponent: SchlagUebersicht
-        },
-        {
             name: 'Auswertungen',
             route: 'auswertungen',
             component: 'Auswertungen',
             reactComponent: Auswertungen
+        },
+        {
+            name: 'Schlag-Übersicht',
+            route: 'schlag-uebersicht',
+            component: 'SchlagUebersicht',
+            reactComponent: SchlagUebersicht
         }
     ],
     defaultPage: 'KalenderAktivitaeten'

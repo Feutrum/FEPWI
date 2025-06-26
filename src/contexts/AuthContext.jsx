@@ -201,10 +201,10 @@ export function AuthProvider({ children }) {
             // Gültige Session gefunden
             setIsAuthenticated(true);
             setUser(localAuth.user);
-            console.log('✅ Lokale Session gefunden:', localAuth.user.email);
+            console.log(' Lokale Session gefunden:', localAuth.user.email);
         } else {
             // Keine oder ungültige Session
-            console.log('❌ Keine lokale Session');
+            console.log(' Keine lokale Session');
             // State bleibt auf default values (false, null)
         }
 
