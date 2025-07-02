@@ -1,0 +1,33 @@
+.anbau-tabelle2-container {
+  max-width: 90%;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.anbau-tabelle2-container h2 {
+  font-size: 1.6rem;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.anbau-tabelle2 {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+}
+
+.anbau-tabelle2 th,
+.anbau-tabelle2 td {
+  border: 1px solid #ccc;
+  padding: 12px;
+  text-align: left;
+}
+
+.anbau-tabelle2 th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.anbau-tabelle2 tr:nth-child(even) {
+  background-color: #fafafa;
+}

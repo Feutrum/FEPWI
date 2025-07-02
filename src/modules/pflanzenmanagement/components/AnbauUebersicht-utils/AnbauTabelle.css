@@ -1,0 +1,38 @@
+.anbau-tabelle-container {
+  max-width: 90%;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.anbau-tabelle-container h2 {
+  font-size: 1.6rem;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.anbau-tabelle {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  font-family: sans-serif;
+}
+
+.anbau-tabelle th,
+.anbau-tabelle td {
+  border: 1px solid #ccc;
+  padding: 12px;
+  text-align: left;
+}
+
+.anbau-tabelle th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.anbau-tabelle tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.anbau-tabelle tr:hover {
+  background-color: #e6f7ff; 
+}

@@ -1,0 +1,36 @@
+.kopfzeile2-wrapper {
+  margin-top: 100px;   
+  margin-left: -150px; 
+  max-width: 100%;     
+  max-width: 1200px; 
+}
+
+.kopfzeile2-container {
+  padding: 20px;
+  margin-bottom: 0px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+}
+
+.kopfzeile2-container h2 {
+  margin-top: 0; 
+  margin-bottom: 50px;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.kopfzeile2-einzeiler {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 90px;
+  font-size: 1rem;
+  color: #444;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.kopfzeile2-einzeiler > div {
+  white-space: nowrap;
+}
