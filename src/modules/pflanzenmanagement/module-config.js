@@ -42,6 +42,12 @@ export const moduleConfig = {
             route: 'auswertungen',
             component: 'Auswertungen',
             reactComponent: Auswertungen
+        },
+        {
+            name: 'Schlag-Übersicht',
+            route: 'schlag-uebersicht',
+            component: 'SchlagUebersicht',
+            reactComponent: SchlagUebersicht
         }
     ],
     defaultPage: 'KalenderAktivitaeten'

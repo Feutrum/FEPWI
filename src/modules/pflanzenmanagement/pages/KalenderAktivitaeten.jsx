@@ -9,6 +9,8 @@
 import React, { useState, useEffect } from 'react';
 import FieldList from '../components/kalender-aktivitaeten-utils/FieldList.jsx';
 import { fieldService } from '../services/pflanzen-service.js';
+import CalendarComponent from '../components/kalender-aktivitaeten-utils/CalendarComponent.jsx';
+
 
 const KalenderAktivitaeten = () => {
     // Component State

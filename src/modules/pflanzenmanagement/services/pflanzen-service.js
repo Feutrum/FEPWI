@@ -23,7 +23,7 @@ export const fieldService = {
     },
 
     /**
-     * Lädt ein spezifisches Feld
+     * Lädt es Feld
      * @param {number} fieldId - ID des Feldes
      * @returns {Promise<Object>} Feld-Objekt
      */
