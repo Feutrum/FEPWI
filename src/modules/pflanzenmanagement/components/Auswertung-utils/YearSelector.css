@@ -1,0 +1,49 @@
+.dropdown-container {
+  position: relative;
+  top: 40px;
+  left: -150px; 
+  z-index: 100;
+}
+
+.dropdown-button {
+  background-color: white;
+  color: #333;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: none;
+}
+
+.dropdown-button:hover,
+.dropdown-button:focus {
+  border-color: #007acc;
+  box-shadow: 0 0 5px rgba(0, 122, 204, 0.5);
+  outline: none;
+}
+
+.dropdown-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 160px;
+  margin-top: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  z-index: 1000;
+  list-style: none;
+  padding: 0;
+}
+
+.dropdown-list-item {
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.dropdown-list-item:hover {
+  background-color: #e6f4ff; /* passend zur aktiven Farbe der schlag-card */
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Schlagnutzung",
+    "data": [
+      { "name": "Mais", "value": 19 },
+      { "name": "Weizen", "value": 14 },
+      { "name": "Gerste", "value": 30 }
+    ]
+  },
+  {
+    "title": "Lagermenge",
+    "data": [
+      { "name": "X", "value": 20 },
+      { "name": "Y", "value": 50 },
+      { "name": "Z", "value": 30 }
+    ]
+  },
+  {
+    "title": "Aktivitäten",
+    "data": [
+      { "name": "A", "value": 60 },
+      { "name": "B", "value": 20 },
+      { "name": "C", "value": 20 }
+    ]
+  }
+]

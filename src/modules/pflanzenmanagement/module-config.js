@@ -8,9 +8,29 @@
 import KalenderAktivitaeten from './pages/KalenderAktivitaeten';
 import SchlagUebersicht from './pages/SchlagUebersicht';
 import Auswertungen from './pages/Auswertungen';
+import AnbauUebersicht from './pages/AnbauUebersicht';
+import Ausgewaelterschlag from './pages/Ausgewaelterschlag';
 
 export const moduleConfig = {
     pages: [
+        {
+            name: 'Schlag Übersicht',
+            route: 'Schlag uebersicht',
+            component: 'SchlagUebersicht',
+            reactComponent: SchlagUebersicht
+        },
+        {
+            name: 'Ausgewählter Schlag',
+            route: 'Ausgewaelter schlag',
+            component: 'Ausgewaelterschlag',
+            reactComponent: Ausgewaelterschlag
+        },
+        {
+            name: 'Anbau Übersicht',
+            route: 'anbau-übersicht',
+            component: 'AnbauUebersicht',
+            reactComponent: AnbauUebersicht
+        },
         {
             name: 'Kalender & Aktivitäten',
             route: 'kalender-aktivitaeten',
@@ -23,12 +43,6 @@ export const moduleConfig = {
             component: 'Auswertungen',
             reactComponent: Auswertungen
         },
-        {
-            name: 'Schlag-Übersicht',
-            route: 'schlag-uebersicht',
-            component: 'SchlagUebersicht',
-            reactComponent: SchlagUebersicht
-        }
     ],
     defaultPage: 'KalenderAktivitaeten'
 };
