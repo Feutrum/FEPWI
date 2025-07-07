@@ -10,6 +10,7 @@ import SchlagUebersicht from './pages/SchlagUebersicht';
 import Auswertungen from './pages/Auswertungen';
 import AnbauUebersicht from './pages/AnbauUebersicht';
 import Ausgewaelterschlag from './pages/Ausgewaelterschlag';
+import Schlaghinzufügen from './pages/Schlaghinzufuegen';
 
 export const moduleConfig = {
     pages: [
@@ -42,6 +43,12 @@ export const moduleConfig = {
             route: 'auswertungen',
             component: 'Auswertungen',
             reactComponent: Auswertungen
+        },
+        {
+            name: 'Schlag hinzufügen',
+            route: 'schlaghinzufuegen',
+            component: 'Schlaghinzufuegen',
+            reactComponent: Schlaghinzufügen
         },
     ],
     defaultPage: 'KalenderAktivitaeten'

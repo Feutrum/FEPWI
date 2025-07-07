@@ -1,33 +1,45 @@
 import React, { useState, useEffect } from 'react';
 import './SchlagÜbersicht.css';
-
-const schlaege = [
-  { nr: 1, name: 'Acker Nord', adresse: 'Hauptstraße 12', groesse: '3.5 ha', bemerkung: 'Mais' },
-  { nr: 2, name: 'Wiese Süd', adresse: 'Feldweg 5', groesse: '2.0 ha', bemerkung: 'Weizen' },
-  { nr: 3, name: 'Hang Ost', adresse: 'Bergstraße 9', groesse: '4.2 ha', bemerkung: 'Roggen' },
-  { nr: 4, name: 'Tal West', adresse: 'Talweg 3', groesse: '1.8 ha', bemerkung: 'Kartoffeln' },
-];
+import { schlagService } from '../../services/schlagService';
 
 export default function SchlagÜbersicht() {
+  const [schlaege, setSchlaege] = useState([]);
   const [selectedNr, setSelectedNr] = useState(null);
   const [sortBy, setSortBy] = useState('nr');
   const [searchTerm, setSearchTerm] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Beim Laden: gespeicherte Auswahl aus localStorage übernehmen
+  // Beim Mount: Auswahl & Daten laden
   useEffect(() => {
     const stored = localStorage.getItem('selectedSchlagNr');
     if (stored) {
       setSelectedNr(Number(stored));
     }
+
+    const fetchData = async () => {
+      try {
+        const data = await schlagService.getAll();
+        setSchlaege(data);
+      } catch (err) {
+        console.error('Fehler beim Laden der Schläge:', err);
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  // Wenn sich selectedNr ändert, speichern wir es
+  // Auswahl speichern
   useEffect(() => {
     if (selectedNr !== null) {
       localStorage.setItem('selectedSchlagNr', selectedNr);
     }
   }, [selectedNr]);
 
+  // Suche & Sortierung
   const sorted = [...schlaege]
     .filter((s) => {
       const term = searchTerm.toLowerCase();
@@ -43,6 +55,11 @@ export default function SchlagÜbersicht() {
       if (sortBy === 'name') return a.name.localeCompare(b.name);
       return a.nr - b.nr;
     });
+
+  // Lade-/Fehleranzeige
+  if (loading) return <div>Lade Schläge...</div>;
+  if (error) return <div style={{ color: 'red' }}>Fehler: {error.message}</div>;
+  if (!sorted.length) return <div>Keine Schläge gefunden.</div>;
 
   return (
     <div className="schlag-container">
@@ -71,9 +88,9 @@ export default function SchlagÜbersicht() {
             key={schlag.nr}
             className={`schlag-card ${selectedNr === schlag.nr ? 'active' : ''}`}
             onClick={() => {
-  setSelectedNr(schlag.nr);
-  localStorage.setItem('selectedSchlag', JSON.stringify(schlag));
-}}
+              setSelectedNr(schlag.nr);
+              localStorage.setItem('selectedSchlag', JSON.stringify(schlag));
+            }}
           >
             <h3>{schlag.name} (Nr. {schlag.nr})</h3>
             <p><strong>Adresse:</strong> {schlag.adresse}</p>
@@ -85,3 +102,4 @@ export default function SchlagÜbersicht() {
     </div>
   );
 }
+

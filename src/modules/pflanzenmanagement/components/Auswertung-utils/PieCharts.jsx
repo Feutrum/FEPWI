@@ -1,38 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
+import { pieChartService } from '../../services/pieChartService';
 import './PieCharts.css';
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
-// Drei Datensätze für die drei Diagramme
-const datasets = [
-  {
-    title: 'Schlagnutzung',
-    data: [
-      { name: 'Mais', value: 40 },
-      { name: 'Weizen', value: 30 },
-      { name: 'Gerste', value: 30 },
-    ],
-  },
-  {
-    title: 'Lagermenge',
-    data: [
-      { name: 'X', value: 20 },
-      { name: 'Y', value: 50 },
-      { name: 'Z', value: 30 },
-    ],
-  },
-  {
-    title: 'Aktivitäten',
-    data: [
-      { name: 'A', value: 60 },
-      { name: 'B', value: 20 },
-      { name: 'C', value: 20 },
-    ],
-  },
-];
+const PieCharts = () => {
+  const [datasets, setDatasets] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-export default function PieCharts() {
+  useEffect(() => {
+    const fetchPieCharts = async () => {
+      try {
+        setLoading(true);
+        const data = await pieChartService.getAllPieData();
+        setDatasets(data);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPieCharts();
+  }, []);
+
+  if (loading) return <div>Lade Diagramme...</div>;
+  if (error) return <div style={{ color: 'red' }}>Fehler: {error.message}</div>;
+  if (!datasets || datasets.length === 0) return <div>Keine Diagrammdaten gefunden.</div>;
+
   return (
     <div className="pie-charts-container">
       {datasets.map((dataset, index) => (
@@ -43,16 +40,13 @@ export default function PieCharts() {
               data={dataset.data}
               cx="50%"
               cy="50%"
-              label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
-              outerRadius={45}
+              outerRadius={50}
+              label
               fill="#8884d8"
               dataKey="value"
             >
               {dataset.data.map((entry, i) => (
-                <Cell
-                  key={`cell-${i}`}
-                  fill={COLORS[i % COLORS.length]}
-                />
+                <Cell key={`cell-${i}`} fill={COLORS[i % COLORS.length]} />
               ))}
             </Pie>
             <Tooltip />
@@ -69,4 +63,6 @@ export default function PieCharts() {
       ))}
     </div>
   );
-}
+};
+
+export default PieCharts;

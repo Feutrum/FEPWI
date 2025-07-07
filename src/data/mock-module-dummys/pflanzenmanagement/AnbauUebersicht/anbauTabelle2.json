@@ -1,0 +1,17 @@
+[
+  {
+    "aktivitaet": "Düngen",
+    "flaeche": "12 ha",
+    "datum": "01.03.2025"
+  },
+  {
+    "aktivitaet": "Bewässern",
+    "flaeche": "6 ha",
+    "datum": "15.03.2025"
+  },
+  {
+    "aktivitaet": "Pflügen",
+    "flaeche": "10 ha",
+    "datum": "22.03.2025"
+  }
+]
