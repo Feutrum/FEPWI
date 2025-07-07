@@ -1,13 +1,13 @@
-.anbau-tabelle2-container {
+.anbau-tabelle2-container {         /* Container für die gesamte Tabelle */
   max-width: 90%;
   margin: 40px auto;
   padding: 20px;
 }
 
-.anbau-tabelle2-container h2 {
-  font-size: 1.6rem;
-  margin-bottom: 16px;
-  text-align: left;
+.anbau-tabelle2-container h2 {      
+  font-size: 1.6rem;                /* Schriftgröße für die Überschrift */
+  margin-bottom: 16px;              /* Abstand zur Tabelle darunter */
+  text-align: left;                 /* Linksbündige Ausrichtung */
 }
 
 .anbau-tabelle2 {

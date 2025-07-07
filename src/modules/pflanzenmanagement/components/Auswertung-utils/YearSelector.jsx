@@ -1,10 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './YearSelector.css';
+import { yearSelectorService } from '../../services/yearSelectorService';
 
 export default function YearSelector() {
-  const years = [2025, 2024, 2023, 2022, 2021, 2020];
+  const [years, setYears] = useState([]);
   const [open, setOpen] = useState(false);
   const [selectedYear, setSelectedYear] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchYears = async () => {
+      try {
+        const result = await yearSelectorService.getYears();
+        setYears(result);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchYears();
+  }, []);
 
   const toggleOpen = () => setOpen(!open);
 
@@ -12,6 +30,9 @@ export default function YearSelector() {
     setSelectedYear(year);
     setOpen(false);
   };
+
+  if (loading) return <div>Lade Erntejahre...</div>;
+  if (error) return <div style={{ color: 'red' }}>Fehler beim Laden der Jahre</div>;
 
   return (
     <div className="dropdown-container">
@@ -35,4 +56,3 @@ export default function YearSelector() {
     </div>
   );
 }
-

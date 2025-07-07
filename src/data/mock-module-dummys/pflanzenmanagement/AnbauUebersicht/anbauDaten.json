@@ -1,0 +1,16 @@
+[
+  {
+    "jahr": 2025,
+    "kultur": "Weizen",
+    "sorte": "Brotweizen",
+    "gesaeht": "20 T",
+    "geerntet": "42,3 T"
+  },
+  {
+    "jahr": 2024,
+    "kultur": "Mais",
+    "sorte": "Silomais",
+    "gesaeht": "10 T",
+    "geerntet": "22 T"
+  }
+]

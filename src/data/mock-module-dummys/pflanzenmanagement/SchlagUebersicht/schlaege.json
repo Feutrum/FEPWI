@@ -1,0 +1,6 @@
+[
+  { "nr": 1, "name": "Acker Nord", "adresse": "Hauptstraße 12", "groesse": "3.5 ha", "bemerkung": "Mais" },
+  { "nr": 2, "name": "Wiese Süd", "adresse": "Feldweg 5", "groesse": "2.0 ha", "bemerkung": "Weizen" },
+  { "nr": 3, "name": "Hang Ost", "adresse": "Bergstraße 9", "groesse": "4.2 ha", "bemerkung": "Roggen" },
+  { "nr": 4, "name": "Tal West", "adresse": "Talweg 3", "groesse": "1.8 ha", "bemerkung": "Kartoffeln" }
+]

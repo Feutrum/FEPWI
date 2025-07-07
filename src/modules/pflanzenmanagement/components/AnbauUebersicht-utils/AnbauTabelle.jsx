@@ -1,25 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './AnbauTabelle.css';
+import { anbauService } from '@/modules/pflanzenmanagement/services/anbauService';
 
 export default function AnbauTabelle() {
-  const daten = [
-    {
-      jahr: 2025,
-      kultur: 'Weizen',
-      sorte: 'Brotweizen',
-      gesaeht: '20 T',
-      geerntet: '42,3 T',
-    },
-    {
-      jahr: 2024,
-      kultur: 'Mais',
-      sorte: 'Silomais',
-      gesaeht: '10 T',
-      geerntet: '22T',
-    },
-    // Du kannst beliebig viele Datensätze hinzufügen
-  ];
+  const [daten, setDaten] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  // useEffect lädt die Daten beim ersten Rendern der Komponente
+  useEffect(() => {
+    const fetchDaten = async () => {
+      try {
+        // API-Call über den Service
+        const result = await anbauService.getAnbauDaten();
+        setDaten(result);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDaten();
+  }, []);
+
+  if (loading) return <div>Lade Anbaudaten...</div>;
+  if (error) return <div style={{ color: 'red' }}>Fehler: {error.message}</div>;
+  if (!daten || daten.length === 0) return <div>Keine Daten gefunden.</div>;
+
+  //Rendering der Tabelle mit Daten
   return (
     <div className="anbau-tabelle-container">
       <h2>Anbau Übersicht</h2>

@@ -2,7 +2,7 @@
   {
     "title": "Schlagnutzung",
     "data": [
-      { "name": "Mais", "value": 19 },
+      { "name": "Mais", "value": 22 },
       { "name": "Weizen", "value": 14 },
       { "name": "Gerste", "value": 30 }
     ]

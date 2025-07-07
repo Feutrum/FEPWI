@@ -1,4 +1,4 @@
-.bodenqualitaet-container {
+.bodenqualitaet-container {           /* Container-Stil für die gesamte Bodenqualität-Komponente */
   width: 50%;
   max-width: 600px;
   padding: 20px;
@@ -8,8 +8,8 @@
 }
 
 .bodenqualitaet-container h2 {
-  margin-bottom: 10px;
-  font-size: 1.4rem;
+  margin-bottom: 10px;                /* Abstand unterhalb der Überschrift */
+  font-size: 1.4rem;                  
   color: #333;
 }
 

@@ -23,6 +23,7 @@ export default function Kopfzeile() {
     return <div className="kopfzeile-container">Kein Schlag ausgewählt</div>;
   }
 
+  // Anzeige der geladenen Daten
   return (
     <div className="kopfzeile-container">
       <h2>{selectedSchlag.name} (Nr. {selectedSchlag.nr})</h2>

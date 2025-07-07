@@ -67,7 +67,17 @@ const loadMockModuleData = async (endpoint) => {
             // BESTEHENDE MOCK-MODULE
             // ========================================
 
-            '/farm/fields': () => import('../data/mock-module-dummys/pflanzenmanagement/fields.json')
+            '/farm/fields': () => import('../data/mock-module-dummys/pflanzenmanagement/fields.json'),
+            '/farm/piecharts': () => import('../data/mock-module-dummys/pflanzenmanagement/Auswertungen/piecharts.json'),
+            '/farm/kopfzeile2': () => import('../data/mock-module-dummys/pflanzenmanagement/Auswertungen/kopfzeile2.json'),
+            '/farm/years': () => import('../data/mock-module-dummys/pflanzenmanagement/Auswertungen/years.json'),
+            '/farm/anbauDaten': () => import('../data/mock-module-dummys/pflanzenmanagement/AnbauUebersicht/anbauDaten.json'),
+            '/farm/anbautabelle2': () => import('../data/mock-module-dummys/pflanzenmanagement/AnbauUebersicht/anbauTabelle2.json'),
+            '/farm/schlaege': () => import('../data/mock-module-dummys/pflanzenmanagement/SchlagUebersicht/schlaege.json'),
+            '/farm/bodenqualitaet': () => import('../data/mock-module-dummys/pflanzenmanagement/AusgewaelterSchlag/bodenQualitaet.json'),
+            '/farm/eigentuemer': () => import('../data/mock-module-dummys/pflanzenmanagement/AusgewaelterSchlag/eigentuemer.json'),
+            '/farm/schlagzustand': () => import('../data/mock-module-dummys/pflanzenmanagement/AusgewaelterSchlag/schlagzustand.json'),
+            
             // ========================================
             // NEUE MOCK-MODULE HIER HINZUFÜGEN
             // ========================================
@@ -76,8 +86,8 @@ const loadMockModuleData = async (endpoint) => {
             // '/sales/customers': () => import('../data/mock-module-dummys/vertrieb/customers.json'),
             // '/hr/employees': () => import('../data/mock-module-dummys/personal/employees.json'),
             // '/carpool/vehicles': () => import('../data/mock-module-dummys/fuhrpark/vehicles.json'),
-
             // Für Anleitung siehe: /data/mock-module-dummys/package.json
+            // Mock Module für die PieCharts
 
         };
 
