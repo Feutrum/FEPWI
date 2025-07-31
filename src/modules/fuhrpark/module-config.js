@@ -7,6 +7,7 @@
 
 // Import der tatsächlichen Komponenten
 import TestPage from './pages/TestPage';
+import AddVehicle from './pages/AddVehicle.jsx';
 
 export const moduleConfig = {
     pages: [
@@ -15,6 +16,12 @@ export const moduleConfig = {
             route: 'fuhrpark-uebersicht',
             component: 'TestPage',
             reactComponent: TestPage
+        },
+        {
+            name: 'Fahrzeug hinzufügen',
+            route: 'fahrzeug-hinzufuegen',
+            component: 'AddVehicle',
+            reactComponent: AddVehicle
         }
     ],
     defaultPage: 'TestPage'
