@@ -5,16 +5,17 @@
  */
 
 // Import der tatsächlichen Komponenten
-import TestPage from './pages/TestPage';
+import TestPage from './pages/MitarbeiterUebersicht.jsx';
+import MitarbeiterUebersicht from "./pages/MitarbeiterUebersicht.jsx";
 
 export const moduleConfig = {
     pages: [
         {
             name: 'Personal Übersicht',
             route: 'personal-uebersicht',
-            component: 'TestPage',
-            reactComponent: TestPage
+            component: 'MitarbeiterUebersicht',
+            reactComponent: MitarbeiterUebersicht
         }
     ],
-    defaultPage: 'TestPage'
+    defaultPage: 'MitarbeiterUebersicht'
 };
