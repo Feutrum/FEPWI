@@ -37,7 +37,7 @@ export default function MitarbeiterUebersicht() {
                 {mitarbeiter.map(m => (
                     <tr key={m.id}>
                         <td style={{ border: '1px solid #ddd', padding: '8px' }}>{m.name}</td>
-                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>{m.birthday}</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>{m.birthdate}</td>
                         <td style={{ border: '1px solid #ddd', padding: '8px' }}>{m.adress}</td>
                         <td style={{ border: '1px solid #ddd', padding: '8px' }}>{m.entryDate}</td>
                         <td style={{ border: '1px solid #ddd', padding: '8px' }}>{m.salary}</td>

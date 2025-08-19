@@ -67,7 +67,8 @@ const loadMockModuleData = async (endpoint) => {
             // BESTEHENDE MOCK-MODULE
             // ========================================
 
-            '/farm/fields': () => import('../data/mock-module-dummys/pflanzenmanagement/fields.json')
+            '/farm/fields': () => import('../data/mock-module-dummys/pflanzenmanagement/fields.json'),
+            '/workers': () => import('../data/mock-module-dummys/personal/workers.json')
             // ========================================
             // NEUE MOCK-MODULE HIER HINZUFÜGEN
             // ========================================
