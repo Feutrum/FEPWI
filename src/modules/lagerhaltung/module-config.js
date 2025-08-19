@@ -5,16 +5,16 @@
  */
 
 // Import der tatsächlichen Komponenten
-import TestPage from './pages/TestPage';
+import LagerUebersicht from "./pages/LagerUebersicht.jsx";
 
 export const moduleConfig = {
     pages: [
         {
             name: 'Lager Übersicht',
             route: 'lager-uebersicht',
-            component: 'TestPage',
-            reactComponent: TestPage
+            component: 'LagerUebersicht',
+            reactComponent: LagerUebersicht
         }
     ],
-    defaultPage: 'TestPage'
+    defaultPage: 'LagerUebersicht'
 };
