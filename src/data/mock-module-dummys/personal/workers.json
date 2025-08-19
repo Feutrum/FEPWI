@@ -1,0 +1,26 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Anna Müller",
+      "birthdate": "20.04.1990",
+      "adress": "Musterstraße 1, 12345 Musterstadt",
+      "entryDate": "01.01.2020",
+      "salary": 3000.50,
+      "workTime": "35 Stunden/Woche",
+      "qualification": "Landwirt",
+      "role": "Feldarbeiter"
+    },
+    {
+      "id": 2,
+      "name": "Max Mustermann",
+      "birthdate": "23.08.1985",
+      "adress": "Beispielweg 2, 54321 Beispielstadt",
+      "entryDate": "30.06.2018",
+      "salary": 2230.50,
+      "workTime": "20 Stunden/Woche",
+      "qualification": "Gärtner",
+      "role": "Gartenhelfer"
+    }
+  ]
+}
