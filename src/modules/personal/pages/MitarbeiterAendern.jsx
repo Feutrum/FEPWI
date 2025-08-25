@@ -1,32 +1,21 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
+import {mitarbeiterService} from "@/modules/personal/services/mitarbeiterService";
 
 
 export default function EmployeeForm() {
-  // Beispiel-Mitarbeiter (fester Array)
-  const [employees] = useState([
-    {
-      id: 1,
-      name: "Max Mustermann",
-      birthdate: "1985-03-12",
-      address: "Musterstraße 1, 12345 Musterstadt",
-      hireDate: "2010-06-01",
-      salary: 3500,
-      workingHours: "40",
-      qualification: "Bachelor Business Administration",
-      role: "Project Manager",
-    },
-    {
-      id: 2,
-      name: "Anna Schmidt",
-      birthdate: "1990-07-21",
-      address: "Beispielweg 5, 54321 Beispielstadt",
-      hireDate: "2015-09-15",
-      salary: 3200,
-      workingHours: "35",
-      qualification: "Master Computer Science",
-      role: "Software Developer",
-    },
-  ]);
+  const [employees, setMitarbeiter] = useState([]);
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const data = await mitarbeiterService.getAll(); // API-Aufruf
+        setMitarbeiter(data);
+      } catch (err) {
+        console.error('Fehler beim Laden der Mitarbeiter:', err);
+      }
+    };
+    loadData();
+  }, []);
 
   const [selectedId, setSelectedId] = useState("");
   const [formData, setFormData] = useState(null);
