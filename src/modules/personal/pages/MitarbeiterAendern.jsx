@@ -1,9 +1,11 @@
 import {useEffect, useState} from "react";
 import {mitarbeiterService} from "@/modules/personal/services/mitarbeiterService";
 
-
 export default function EmployeeForm() {
   const [employees, setMitarbeiter] = useState([]);
+  const [selectedId, setSelectedId] = useState("");
+  const [formData, setFormData] = useState(null);
+  const [savedData, setSavedData] = useState([]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -17,9 +19,34 @@ export default function EmployeeForm() {
     loadData();
   }, []);
 
-  const [selectedId, setSelectedId] = useState("");
-  const [formData, setFormData] = useState(null);
-  const [savedData, setSavedData] = useState([]);
+  // --- Datum Hilfsfunktionen ---
+  const formatDateForDisplay = (value) => {
+    if (!value) return "";
+    // wenn schon TT.MM.JJJJ
+    if (/^\d{2}\.\d{2}\.\d{4}$/.test(value)) {
+      return value;
+    }
+    // wenn ISO (YYYY-MM-DD)
+    if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+      const [year, month, day] = value.split("-");
+      return `${day}.${month}.${year}`;
+    }
+    return value;
+  };
+
+  const parseDateFromDisplay = (value) => {
+    if (!value) return "";
+    // TT.MM.JJJJ -> ISO
+    if (/^\d{2}\.\d{2}\.\d{4}$/.test(value)) {
+      const [day, month, year] = value.split(".");
+      return `${year}-${month}-${day}`;
+    }
+    // schon ISO
+    if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+      return value;
+    }
+    return "";
+  };
 
   // Mitarbeiter aus Dropdown auswählen → Daten in Formular übernehmen
   const handleSelect = (id) => {
@@ -31,9 +58,15 @@ export default function EmployeeForm() {
   // Eingaben speichern
   const handleChange = (e) => {
     const { name, value, type } = e.target;
+    let newValue = value;
 
-    // wenn number-Feld → Zahl speichern
-    const newValue = type === "number" ? Number(value) : value;
+    if (type === "number") {
+      newValue = Number(value);
+    }
+
+    if (name === "birthdate" || name === "entryDate") {
+      newValue = parseDateFromDisplay(value);
+    }
 
     setFormData((prev) => ({ ...prev, [name]: newValue }));
   };
@@ -76,16 +109,16 @@ export default function EmployeeForm() {
               <InputField
                 label="Geburtsdatum"
                 name="birthdate"
-                type="date"
-                value={formData.birthdate}
+                type="text"
+                value={formatDateForDisplay(formData.birthdate)}
                 onChange={handleChange}
               />
-              <InputField label="Adresse" name="address" value={formData.address} onChange={handleChange} />
+              <InputField label="Adresse" name="adress" value={formData.adress} onChange={handleChange} />
               <InputField
                 label="Eintrittsdatum"
-                name="hireDate"
-                type="date"
-                value={formData.hireDate}
+                name="entryDate"
+                type="text"
+                value={formatDateForDisplay(formData.entryDate)}
                 onChange={handleChange}
               />
             </div>
@@ -99,9 +132,9 @@ export default function EmployeeForm() {
               />
               <InputField
                 label="Arbeitsstunden pro Woche"
-                name="workingHours" 
-                type="number"
-                value={formData.workingHours}
+                name="workTime" 
+                type="text"
+                value={formData.workTime}
                 onChange={handleChange}
               />
               <InputField label="Qualifikation" name="qualification" value={formData.qualification} onChange={handleChange} />
@@ -119,8 +152,6 @@ export default function EmployeeForm() {
         {savedData.length > 0 && (
           <pre style={preStyle}>{JSON.stringify(savedData, null, 2)}</pre>
         )}
-
-
       </div>
 
       {/* Rechte Seite: History */}
@@ -138,8 +169,6 @@ export default function EmployeeForm() {
             </li>
           ))}
         </ul>
-
-
       </div>
     </div>
   );
@@ -164,7 +193,7 @@ function InputField({ label, name, value, onChange, type = "text" }) {
 // --- Styles ---
 const pageLayout = {
   display: "grid",
-  gridTemplateColumns: "1.6fr 1fr", // vorher 2fr 1fr -> so ist aber kleiner damit nix abgeschnitten ist. (1.3fr 1 ist etwas zu klein / manche inputs sind abgeschnitten)
+  gridTemplateColumns: "1.6fr 1fr",
   gap: "20px",
   maxWidth: "1200px",
   margin: "20px auto",
@@ -245,4 +274,4 @@ const preStyle = {
   background: "#eee",
   borderRadius: "6px",
   overflowX: "auto",
-}
+};
