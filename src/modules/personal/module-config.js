@@ -8,6 +8,7 @@
 import TestPage from './pages/MitarbeiterUebersicht.jsx';
 import MitarbeiterUebersicht from "./pages/MitarbeiterUebersicht.jsx";
 import MitarbeiterAendern from "./pages/MitarbeiterAendern.jsx";
+import Arbeitszeitkonto from "./pages/ArbeitszeitKonto.jsx";
 
 export const moduleConfig = {
     pages: [
@@ -22,6 +23,12 @@ export const moduleConfig = {
             route: 'personal-aenderung',
             component: 'MitarbeiterAendern',
             reactComponent: MitarbeiterAendern         
+        },
+        {
+            name: 'ArbeitszeitKonto',
+            route: 'personal-arbeitszeitkonto',
+            component: 'ArbeitszeitKonto',
+            reactComponent: Arbeitszeitkonto
         }
     ],
 
