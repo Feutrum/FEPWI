@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Checkbox, FormControlLabel, Chip } from '@mui/material';
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Checkbox, FormControlLabel, Chip, Button, Dialog, DialogTitle, DialogContent, IconButton } from '@mui/material';
 import { vehicleService } from '@/modules/fuhrpark/services/vehicleService';
+import AddVehicleEquipmentForm from '../add-vehicle-utils/AddVehicleEquipmentForm';
+import CloseIcon from '@mui/icons-material/Close';
 import './VehicleOverviewTable.css';
 
 function daysUntil(dateStr) {
@@ -21,12 +23,53 @@ function tuevColor(tuev) {
 export default function VehicleOverviewTable() {
     const [vehicles, setVehicles] = useState([]);
     const [onlyExpiring, setOnlyExpiring] = useState(false);
+    const [openDialog, setOpenDialog] = useState(false);
+    const [selectedVehicleId, setSelectedVehicleId] = useState(null);
+    const [formData, setFormData] = useState({
+        ausstattung_id: '',
+        name: '',
+        typ: '',
+        nutzungsbeschreibung: '',
+        fahrzeug_id: ''
+    });
 
     useEffect(() => {
-        setVehicles(vehicleService.getVehicles());
-    }, []);
+    async function fetchVehicles() {
+        const data = await vehicleService.getMockVehicles();
+        setVehicles(data);
+    }
+    fetchVehicles();
+}, []);
 
     const filtered = onlyExpiring ? vehicles.filter(v => daysUntil(v.TUEV) < 30) : vehicles;
+
+    const handleOpenDialog = (vehicleId) => {
+        setSelectedVehicleId(vehicleId);
+        setFormData({
+            ausstattung_id: '',
+            name: '',
+            typ: '',
+            nutzungsbeschreibung: '',
+            fahrzeug_id: vehicleId
+        });
+        setOpenDialog(true);
+    };
+
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+        setSelectedVehicleId(null);
+    };
+
+    const handleFormChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        // Hier kannst du die Logik zum Speichern der Ausstattung einfügen
+        handleCloseDialog();
+    };
 
     return (
         <Box>
@@ -56,6 +99,7 @@ export default function VehicleOverviewTable() {
                             <TableCell>Autonom</TableCell>
                             <TableCell>Fahrerlaubnis</TableCell>
                             <TableCell>Nutzungsbeschreibung</TableCell>
+                            <TableCell>Austattung hinzufügen</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -79,11 +123,35 @@ export default function VehicleOverviewTable() {
                                 <TableCell>{v.ist_autonom ? 'Ja' : 'Nein'}</TableCell>
                                 <TableCell>{v.erforderliche_fahrerlaubnis}</TableCell>
                                 <TableCell>{v.nutzungsbeschreibung}</TableCell>
+                                <TableCell>
+                                    <Button onClick={() => handleOpenDialog(v.id)}>Austattung hinzufügen</Button>
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
+                <DialogTitle>
+                    Ausstattung hinzufügen
+                    <IconButton
+                        aria-label="close"
+                        onClick={handleCloseDialog}
+                        sx={{ position: 'absolute', right: 8, top: 8 }}
+                    >
+                        <CloseIcon />
+                    </IconButton>
+                </DialogTitle>
+                <DialogContent>
+                    <AddVehicleEquipmentForm
+                        formData={formData}
+                        onChange={handleFormChange}
+                        onSubmit={handleFormSubmit}
+                    />
+                    {/* Hidden input for fahrzeug_id */}
+                    <input type="hidden" name="fahrzeug_id" value={formData.fahrzeug_id} />
+                </DialogContent>
+            </Dialog>
         </Box>
     );
 }

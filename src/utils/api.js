@@ -67,7 +67,7 @@ const loadMockModuleData = async (endpoint) => {
             // BESTEHENDE MOCK-MODULE
             // ========================================
 
-            '/farm/fields': () => import('../data/mock-module-dummys/pflanzenmanagement/fields.json')
+            '/farm/fields': () => import('../data/mock-module-dummys/pflanzenmanagement/fields.json'),
             // ========================================
             // NEUE MOCK-MODULE HIER HINZUFÜGEN
             // ========================================
@@ -75,7 +75,7 @@ const loadMockModuleData = async (endpoint) => {
             // '/warehouse/products': () => import('../data/mock-module-dummys/lager/products.json'),
             // '/sales/customers': () => import('../data/mock-module-dummys/vertrieb/customers.json'),
             // '/hr/employees': () => import('../data/mock-module-dummys/personal/employees.json'),
-            // '/carpool/vehicles': () => import('../data/mock-module-dummys/fuhrpark/vehicles.json'),
+            '/fuhrpark/vehicles': () => import('../data/mock-module-dummys/fuhrpark/vehicles.json')
 
             // Für Anleitung siehe: /data/mock-module-dummys/package.json
 

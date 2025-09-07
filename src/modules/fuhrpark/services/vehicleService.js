@@ -1,3 +1,5 @@
+import { api } from '@/utils/api';
+
 export const vehicleService = {
     addVehicle(vehicle) {
         const existing = JSON.parse(localStorage.getItem('mockVehicles')) || [];
@@ -6,5 +8,15 @@ export const vehicleService = {
     },
     getVehicles() {
         return JSON.parse(localStorage.getItem('mockVehicles')) || [];
+    },
+    // Service-Layer für Mock-Daten aus JSON
+    getMockVehicles: async () => {
+        try {
+            const response = await api.get('/fuhrpark/vehicles');
+            return response.data || [];
+        } catch (error) {
+            console.error('Fehler:', error);
+            throw error;
+        }
     }
 };
