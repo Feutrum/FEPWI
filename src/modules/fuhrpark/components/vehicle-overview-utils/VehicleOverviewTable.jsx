@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Checkbox, FormControlLabel, Chip } from '@mui/material';
 import { vehicleService } from '@/modules/fuhrpark/services/vehicleService';
+import './VehicleOverviewTable.css';
 
 function daysUntil(dateStr) {
     if (!dateStr) return null;
@@ -13,14 +14,8 @@ function tuevColor(tuev) {
     const days = daysUntil(tuev);
     if (days === null) return 'default';
     if (days < 0) return 'error'; // abgelaufen
-    if (days < 30) return 'error'; // weniger als 30 Tage
+    if (days < 30) return 'warning'; // weniger als 30 Tage
     return 'success'; // alles andere grün
-}
-
-function statusColor(status) {
-    if (status === 'bereit') return 'success';
-    if (status === 'in Wartung') return 'warning';
-    return 'default';
 }
 
 export default function VehicleOverviewTable() {
@@ -48,7 +43,7 @@ export default function VehicleOverviewTable() {
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
-                        <TableRow>
+                        <TableRow className="vehicle-table-row">
                             <TableCell>Name</TableCell>
                             <TableCell>Standort</TableCell>
                             <TableCell>Kategorie</TableCell>
@@ -56,7 +51,6 @@ export default function VehicleOverviewTable() {
                             <TableCell>Treibstoffart</TableCell>
                             <TableCell>Anschaffungsdatum</TableCell>
                             <TableCell>TÜV</TableCell>
-                            <TableCell>Status</TableCell>
                             <TableCell>Kilometerstand</TableCell>
                             <TableCell>Gemietet</TableCell>
                             <TableCell>Autonom</TableCell>
@@ -66,7 +60,7 @@ export default function VehicleOverviewTable() {
                     </TableHead>
                     <TableBody>
                         {filtered.map((v, idx) => (
-                            <TableRow key={v.id || idx}>
+                            <TableRow key={v.id || idx} className="vehicle-table-row">
                                 <TableCell>{v.name}</TableCell>
                                 <TableCell>{v.standort}</TableCell>
                                 <TableCell>{v.kategorie}</TableCell>
@@ -77,13 +71,6 @@ export default function VehicleOverviewTable() {
                                     <Chip
                                         label={v.TUEV}
                                         color={tuevColor(v.TUEV)} 
-                                        size="small"
-                                    />
-                                </TableCell>
-                                <TableCell>
-                                    <Chip
-                                        label={v.status}
-                                        color={statusColor(v.status)}
                                         size="small"
                                     />
                                 </TableCell>
