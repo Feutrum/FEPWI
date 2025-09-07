@@ -1,0 +1,10 @@
+
+.vehicle-table-row > th,  .vehicle-table-row > td{
+	font-size: 0.75rem;
+}
+
+.vehicle-table-row span{
+	font-size: 0.7rem;
+	line-height: 1.5;
+	height: 1.5em;
+}
