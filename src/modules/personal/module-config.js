@@ -8,6 +8,7 @@
 import TestPage from './pages/MitarbeiterUebersicht.jsx';
 import MitarbeiterUebersicht from "./pages/MitarbeiterUebersicht.jsx";
 import MitarbeiterAendern from "./pages/MitarbeiterAendern.jsx";
+import MitarbeiterKalender from "./pages/MitarbeiterKalender.jsx";
 
 export const moduleConfig = {
     pages: [
@@ -22,6 +23,12 @@ export const moduleConfig = {
             route: 'personal-aenderung',
             component: 'MitarbeiterAendern',
             reactComponent: MitarbeiterAendern         
+        },
+        {
+            name: 'Kalender',
+            route: 'kalender-aenderung',
+            component: 'MitarbeiterKalender',
+            reactComponent: MitarbeiterKalender         
         }
     ],
 
