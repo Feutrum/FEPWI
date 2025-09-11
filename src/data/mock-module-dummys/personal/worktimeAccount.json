@@ -3,28 +3,28 @@
     {
       "id": 1,
       "calendarWeek": 1,
-      "expectedTime": 0,
+      "expectedTime": 35,
       "doneTime": 0,
       "workerID":1
     },
     {
       "id": 2,
       "calendarWeek": 2,
-      "expectedTime": 0,
+      "expectedTime": 35,
       "doneTime": 0,
       "workerID":1
     },
     {
       "id": 3,
       "calendarWeek": 1,
-      "expectedTime": 0,
+      "expectedTime": 20,
       "doneTime": 0,
       "workerID":2
     },
     {
       "id": 4,
       "calendarWeek": 2,
-      "expectedTime": 0,
+      "expectedTime": 20,
       "doneTime": 0,
       "workerID":2
     }

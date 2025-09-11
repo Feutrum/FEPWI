@@ -30,7 +30,6 @@ export default function ArbeitszeitKonto(){
     const loadAccData = async () => {
       try {
         const data = await workTimeAccountService.getAll();
-         console.log("", data)
         setworkTimeSheets(data);
        
       }
@@ -49,24 +48,37 @@ export default function ArbeitszeitKonto(){
 
   };
 
-  //not needed
-  const handlePersonChange = (e) => {
-    const { name, value, type } = e.target;
-    let newValue = value;
-    if (type === "number") {newValue = Number(value);}
-    setemployeeFormData((prev) => ({ ...prev, [name]: newValue }));
+  const handleSave = () => {
+    //hier service save request
+    //hier differenz setzen und einspeichern
   };
 
-  const handleTimeAccountChange = (e) => {
-    const { type, name, value } = e.target;
-    if(type === "number"){
-      let newValue = Number(value);
-      setworkTimeFormData((prev) => ({...prev, [name]: newValue}));
-    }else{console.error('Eingabe ist kein Zahl');}
-  }
+  const handleDoneTimeChange = (id,value) => {
+    const newSheets = employeeSheets.map(m => {
+      if (m.id ===id) {
+        return{...m, doneTime: Number(value)};
+      }
+      return m;
+    });
+    setEmployeeSheets(newSheets);
+  };
+
+  const addExtraWeek = () => {
+    if(!selectedId) return;
+    const currentWeeks = employeeSheets.map(m => m.calendarWeek);
+    const maxWeek = currentWeeks.length>0 ? Math.max(...currentWeeks):0;
+    const newWeek = {
+      id: -Date.now(),
+      workerID: Number(selectedId),
+      calendarWeek: maxWeek+1,
+      expectedTime: employeeFormData.workTime ??0,
+      doneTime: 0
+    };
+    setEmployeeSheets([...employeeSheets, newWeek])
+  };
 
 
-  return (<div style={{ padding: '20px' }}>
+return (<div style={{ padding: '20px' }}>
     <h1>Arbeitszeitkonto</h1>
     <select
       value={selectedId}
@@ -97,14 +109,27 @@ export default function ArbeitszeitKonto(){
           <tr key={i.id}>
             <td style={{ border: '1px solid #ddd', padding: '8px' }}>{i.calendarWeek}</td>
             <td style={{ border: '1px solid #ddd', padding: '8px' }}>{i.expectedTime}</td>
-            <td style={{ border: '1px solid #ddd', padding: '8px' }}>{i.doneTime}</td>
+            <td style={{ border: '1px solid #ddd', padding: '8px' }}>
+              <input
+                type="number"
+                value={i.doneTime}
+                name="doneTime"
+                onChange={(e) => handleDoneTimeChange(i.id,e.target.value)}
+                style={{ width: '100%' }}
+              />
+            </td>
             <td style={{ border: '1px solid #ddd', padding: '8px' }}>{i.doneTime - i.expectedTime}</td>
           </tr>
         ))}
       </tbody>
     </table>
   </div>
-)}
-
-  </div>);
+  )}
+   <button onClick={handleSave}>
+      Speichern
+    </button>
+    <button onClick={addExtraWeek}>
+      neue Woche hinzufügen
+    </button> 
+</div>);
 }
