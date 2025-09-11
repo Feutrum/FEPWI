@@ -7,7 +7,7 @@
       "adress": "Musterstraße 1, 12345 Musterstadt",
       "entryDate": "01.01.2020",
       "salary": 3000.50,
-      "workTime": "35 Stunden/Woche",
+      "workTime": 35,
       "qualification": "Landwirt",
       "role": "Feldarbeiter"
     },
@@ -18,7 +18,7 @@
       "adress": "Beispielweg 2, 54321 Beispielstadt",
       "entryDate": "30.06.2018",
       "salary": 2230.50,
-      "workTime": "20 Stunden/Woche",
+      "workTime": 20,
       "qualification": "Gärtner",
       "role": "Gartenhelfer"
     }
