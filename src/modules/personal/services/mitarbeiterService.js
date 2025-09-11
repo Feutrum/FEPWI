@@ -18,5 +18,14 @@ export const mitarbeiterService = {
             console.error('Fehler beim Anlegen des Mitarbeiters:', error);
             throw error;
         }
+    },
+    delete: async (id) => {
+        try {
+            const response = await api.delete(`/workers/${id}`);
+            return response.data;
+        } catch (error) {
+            console.error(`Fehler beim Löschen des Mitarbeiters mit ID ${id}:`, error);
+            throw error;
+        }
     }
 };

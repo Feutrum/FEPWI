@@ -80,6 +80,19 @@ export default function EmployeeForm() {
     }
   };
 
+  // löschen
+  const handleDelete = async (id) => {
+    if (!window.confirm("Soll dieser Mitarbeiter wirklich gelöscht werden?")) return;
+
+    try {
+      await mitarbeiterService.delete(id);
+      // Nach erfolgreichem Löschen: Liste aktualisieren
+      setMitarbeiter((prev) => prev.filter((m) => m.id !== id));
+    } catch (err) {
+      console.error("Fehler beim Löschen:", err);
+    }
+  };
+
   return (
     <div style={pageLayout}>
       {/* Linke Seite: Formular */}
@@ -144,9 +157,17 @@ export default function EmployeeForm() {
         )}
 
         {formData && (
-          <button onClick={handleSave} style={buttonStyle}>
-            Speichern
-          </button>
+            <div>
+              <button onClick={handleSave} style={buttonStyle}>
+                Speichern
+              </button>
+              <button
+                  onClick={() => handleDelete(formData.id)}
+                  style={{ ...buttonStyle, backgroundColor: "#b71c1c" }}
+              >
+                Löschen
+              </button>
+            </div>
         )}
 
         {savedData.length > 0 && (
