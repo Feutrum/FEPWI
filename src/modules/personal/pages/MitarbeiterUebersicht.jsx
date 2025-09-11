@@ -19,7 +19,7 @@ export default function MitarbeiterUebersicht() {
 
     return (
         <div style={{ padding: '20px' }}>
-            <h1>Mitarbeiter-Übersicht</h1>
+            <h2>Mitarbeiter-Übersicht</h2>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <thead>
                 <tr style={{ backgroundColor: '#f5f5f5' }}>
