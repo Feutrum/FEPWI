@@ -99,7 +99,7 @@ export default function VehicleOverviewTable() {
                             <TableCell>Autonom</TableCell>
                             <TableCell>Fahrerlaubnis</TableCell>
                             <TableCell>Nutzungsbeschreibung</TableCell>
-                            <TableCell>Austattung hinzufügen</TableCell>
+                            <TableCell>Ausstattung hinzufügen</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -124,7 +124,13 @@ export default function VehicleOverviewTable() {
                                 <TableCell>{v.erforderliche_fahrerlaubnis}</TableCell>
                                 <TableCell>{v.nutzungsbeschreibung}</TableCell>
                                 <TableCell>
-                                    <Button onClick={() => handleOpenDialog(v.id)}>Austattung hinzufügen</Button>
+                                    <Chip
+                                        label="Ausstattung hinzufügen"
+                                        size="small"
+                                        color="primary"
+                                        onClick={() => handleOpenDialog(v.id)}
+                                        clickable
+                                    />
                                 </TableCell>
                             </TableRow>
                         ))}
