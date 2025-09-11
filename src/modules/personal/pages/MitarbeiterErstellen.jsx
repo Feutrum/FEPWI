@@ -8,7 +8,7 @@ export default function MitarbeiterErstellen() {
         birthdate: '',
         adress: '',
         entryDate: '',
-        salary: '',
+        salary: 2000.00,
         workTime: '',
         qualification: '',
         role: ''
@@ -16,15 +16,23 @@ export default function MitarbeiterErstellen() {
     const [message, setMessage] = useState('');
 
     // Diese Funktion wird ausgeführt, wenn der User ein Formularfeld ändert.
-    const handleChange = e => {
-        const { name, value, type } = e.target;
-        setForm(prev => ({
-            ...prev,
-            [name]: type === "number" ? Number(value) : value
-        }));
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        if (name === "salary") {
+            setForm(prev => ({
+                ...prev,
+                salary: parseFloat(value)
+            }));
+        } else {
+            setForm(prev => ({
+                ...prev,
+                [name]: value
+            }));
+        }
     };
 
-    // Wenn der User das Formular absendet, werden die Daten an den Service geschickt.
+
+    // Wenn der User das Formular absendet, werden die Daten an den Service geschickt und das Formular zurückgesetzt.
     const handleSubmit = async e => {
         e.preventDefault();
         try {
@@ -35,7 +43,7 @@ export default function MitarbeiterErstellen() {
                 birthdate: '',
                 adress: '',
                 entryDate: '',
-                salary: '',
+                salary: 2000.00,
                 workTime: '',
                 qualification: '',
                 role: ''
