@@ -48,7 +48,7 @@ export default function MitarbeiterErstellen() {
                 qualification: '',
                 role: ''
             });
-        } catch (_) {
+        } catch {
             setMessage('Fehler beim Anlegen des Mitarbeiters.');
         }
     };
