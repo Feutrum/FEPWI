@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
-import {mitarbeiterService} from "@/modules/personal/services/mitarbeiterService";
+import { mitarbeiterService } from "@/modules/personal/services/mitarbeiterService";
 
 export default function MitarbeiterKalender() {
   const [currentDate, setCurrentDate] = useState(dayjs());
@@ -9,11 +9,17 @@ export default function MitarbeiterKalender() {
   const [employees, setEmployees] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState("");
   const [showForm, setShowForm] = useState(false);
-  const [formData, setFormData] = useState({ id: null, name: "", eintrag: "" });
+  const [formData, setFormData] = useState({
+    id: null,
+    name: "",
+    eintrag: "",
+    color: "#90ee90",
+    arbeitszeit: 0,
+  });
 
   const today = dayjs();
 
-  // Mitarbeiter aus API laden
+  // Mitarbeiter laden
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -37,14 +43,18 @@ export default function MitarbeiterKalender() {
   for (let i = 1; i <= daysInMonth; i++) calendarDays.push(i);
   while (calendarDays.length < 42) calendarDays.push(null);
 
-  // Speichern / Edit
+  // Speichern
   const handleSaveEntry = () => {
     if (!selectedDay || !selectedEmployee || !formData.name) return;
 
     if (formData.id) {
-      // Edit
+      // Bearbeiten
       setEntries(
-        entries.map((e) => (e.id === formData.id ? { ...formData, date: selectedDay.toDate(), person: selectedEmployee } : e))
+        entries.map((e) =>
+          e.id === formData.id
+            ? { ...formData, date: selectedDay.toDate(), person: selectedEmployee }
+            : e
+        )
       );
     } else {
       // Neu
@@ -54,12 +64,14 @@ export default function MitarbeiterKalender() {
         date: selectedDay.toDate(),
         eintrag: formData.eintrag,
         person: selectedEmployee,
+        color: formData.color,
+        arbeitszeit: formData.arbeitszeit,
       };
       setEntries([...entries, newEntry]);
     }
 
     setShowForm(false);
-    setFormData({ id: null, name: "", eintrag: "" });
+    setFormData({ id: null, name: "", eintrag: "", color: "#90ee90", arbeitszeit: 0 });
   };
 
   // Löschen
@@ -67,7 +79,7 @@ export default function MitarbeiterKalender() {
     setEntries(entries.filter((e) => e.id !== id));
   };
 
-  // Edit vorbereiten
+  // Bearbeiten vorbereiten
   const handleEdit = (entry) => {
     setFormData(entry);
     setSelectedEmployee(entry.person);
@@ -77,9 +89,12 @@ export default function MitarbeiterKalender() {
 
   return (
     <div className="kalender-container">
-      {/* Mitarbeiter + Buttons */}
+      {/* Mitarbeiter-Auswahl + Add-Button */}
       <div className="toolbar">
-        <select value={selectedEmployee} onChange={(e) => setSelectedEmployee(e.target.value)}>
+        <select
+          value={selectedEmployee}
+          onChange={(e) => setSelectedEmployee(e.target.value)}
+        >
           <option value="">Mitarbeiter auswählen…</option>
           {employees.map((emp) => (
             <option key={emp.id} value={emp.name}>
@@ -87,62 +102,90 @@ export default function MitarbeiterKalender() {
             </option>
           ))}
         </select>
-        <button onClick={() => setShowForm(true)} disabled={!selectedDay}>
+        <button onClick={() => setShowForm(true)} disabled={!selectedDay || !selectedEmployee}>
           Add
         </button>
       </div>
 
-      {/* Navigation */}
-      <div className="kalender-nav">
-        <button onClick={() => setCurrentDate(currentDate.subtract(1, "month"))}>◀</button>
-        <h2>{currentDate.format("MMMM YYYY")}</h2>
-        <button onClick={() => setCurrentDate(currentDate.add(1, "month"))}>▶</button>
-      </div>
-
-      {/* Kalender */}
-      <div className="kalender-grid">
-        {["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"].map((day) => (
-          <div key={day} className="kalender-header">
-            {day}
+      {/* Kalender nur anzeigen wenn Mitarbeiter gewählt */}
+      {selectedEmployee && (
+        <>
+          {/* Navigation */}
+          <div className="kalender-nav">
+            <button onClick={() => setCurrentDate(currentDate.subtract(1, "month"))}>◀</button>
+            <h2>{currentDate.format("MMMM YYYY")}</h2>
+            <button onClick={() => setCurrentDate(currentDate.add(1, "month"))}>▶</button>
           </div>
-        ))}
-        {calendarDays.map((day, i) => {
-          const dateObj = day ? currentDate.date(day) : null;
-          const isToday =
-            day &&
-            currentDate.month() === today.month() &&
-            currentDate.year() === today.year() &&
-            day === today.date();
 
-          const isSelected = dateObj && selectedDay && dateObj.isSame(selectedDay, "day");
+          {/* Kalender */}
+          <div className="kalender-grid">
+            {["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"].map((day) => (
+              <div key={day} className="kalender-header">
+                {day}
+              </div>
+            ))}
+            {calendarDays.map((day, i) => {
+              const dateObj = day ? currentDate.date(day) : null;
+              const isToday =
+                day &&
+                currentDate.month() === today.month() &&
+                currentDate.year() === today.year() &&
+                day === today.date();
 
-          const dayEntries = entries.filter(
-            (e) =>
-              dateObj &&
-              dayjs(e.date).isSame(dateObj, "day") &&
-              (!selectedEmployee || e.person === selectedEmployee) //nur ausgewählte Person
-          );
+              const isSelected =
+                dateObj && selectedDay && dateObj.isSame(selectedDay, "day");
 
-          return (
-            <div
-              key={i}
-              onClick={() => dateObj && setSelectedDay(dateObj)}
-              className={`kalender-cell ${isToday ? "today" : ""} ${isSelected ? "selected" : ""}`}
-            >
-              <div className="day-number">{day}</div>
-              {dayEntries.map((entry) => (
-                <div key={entry.id} className="entry">
-                  <span>{entry.name}</span>
-                  <div className="entry-actions">
-                    <button onClick={(e) => { e.stopPropagation(); handleEdit(entry); }}>✎</button>
-                    <button onClick={(e) => { e.stopPropagation(); handleDelete(entry.id); }}>🗑</button>
-                  </div>
+              const dayEntries = entries.filter(
+                (e) =>
+                  dateObj &&
+                  dayjs(e.date).isSame(dateObj, "day") &&
+                  e.person === selectedEmployee
+              );
+
+              return (
+                <div
+                  key={i}
+                  onClick={() => dateObj && setSelectedDay(dateObj)}
+                  className={`kalender-cell ${isToday ? "today" : ""} ${
+                    isSelected ? "selected" : ""
+                  }`}
+                >
+                  <div className="day-number">{day}</div>
+                  {dayEntries.map((entry) => (
+                    <div
+                      key={entry.id}
+                      className="entry"
+                      style={{ background: entry.color }}
+                    >
+                      <span>
+                        {entry.name} ({entry.arbeitszeit}h geschätzt)
+                      </span>
+                      <div className="entry-actions">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleEdit(entry);
+                          }}
+                        >
+                          ✎
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDelete(entry.id);
+                          }}
+                        >
+                          🗑
+                        </button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          );
-        })}
-      </div>
+              );
+            })}
+          </div>
+        </>
+      )}
 
       {/* Popup-Formular */}
       {showForm && (
@@ -157,10 +200,31 @@ export default function MitarbeiterKalender() {
           <textarea
             placeholder="Beschreibung"
             value={formData.eintrag}
-            onChange={(e) => setFormData({ ...formData, eintrag: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, eintrag: e.target.value })
+            }
+          />
+          <label>Farbe:</label>
+          <input
+            type="color"
+            value={formData.color}
+            onChange={(e) => setFormData({ ...formData, color: e.target.value })}
+          />
+          <label>Geschätzte Arbeitszeit (h):</label>
+          <input
+            type="number"
+            value={formData.arbeitszeit}
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                arbeitszeit: parseFloat(e.target.value) || 0,
+              })
+            }
           />
           <div className="modal-actions">
-            <button onClick={handleSaveEntry}>{formData.id ? "Update" : "Speichern"}</button>
+            <button onClick={handleSaveEntry}>
+              {formData.id ? "Update" : "Speichern"}
+            </button>
             <button onClick={() => setShowForm(false)}>Abbrechen</button>
           </div>
         </div>
@@ -203,14 +267,14 @@ export default function MitarbeiterKalender() {
           border-radius: 6px;
         }
         .kalender-cell {
-          min-height: 150px; /* vorher 120px */
-          min-width : 150px;
+          min-height: 150px;
+          min-width: 150px;
           background: white;
           border-radius: 8px;
-          padding: 10px; /* vorher 6px */
+          padding: 10px;
           position: relative;
           cursor: pointer;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.1);  
+          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         .kalender-cell.today {
           border: 2px solid red;
@@ -225,7 +289,6 @@ export default function MitarbeiterKalender() {
           margin-bottom: 4px;
         }
         .entry {
-          background: #90ee90;
           border-radius: 4px;
           padding: 2px 4px;
           margin-top: 2px;
