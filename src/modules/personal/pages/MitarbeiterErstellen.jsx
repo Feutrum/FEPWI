@@ -9,19 +9,27 @@ export default function MitarbeiterErstellen() {
         adress: '',
         entryDate: '',
         salary: 2000.00,
-        workTime: '',
+        workTime: 40,
         qualification: '',
         role: ''
     });
     const [message, setMessage] = useState('');
 
     // Diese Funktion wird ausgeführt, wenn der User ein Formularfeld ändert.
+    // ... kopiert den aktuellen State und aktualisiert nur das geänderte Feld.
+    // Für "salary" und "workTime" wird der Wert in die passende Zahl umgewandelt.
+    // === Überprüft auch den Typ des Eingabefelds
     const handleChange = (e) => {
         const { name, value } = e.target;
         if (name === "salary") {
             setForm(prev => ({
                 ...prev,
                 salary: parseFloat(value)
+            }));
+        } else if (name === "workTime") {
+            setForm(prev => ({
+                ...prev,
+                workTime: parseInt(value, 10)
             }));
         } else {
             setForm(prev => ({
@@ -44,7 +52,7 @@ export default function MitarbeiterErstellen() {
                 adress: '',
                 entryDate: '',
                 salary: 2000.00,
-                workTime: '',
+                workTime: 40,
                 qualification: '',
                 role: ''
             });
@@ -66,7 +74,7 @@ export default function MitarbeiterErstellen() {
                     </div>
                     <div>
                         <InputField label="Gehalt" name="salary" type="number" value={form.salary} onChange={handleChange} />
-                        <InputField label="Arbeitszeiten" name="workTime" value={form.workTime} onChange={handleChange} />
+                        <InputField label="Arbeitszeiten" name="workTime" type="number" value={form.workTime} onChange={handleChange} />
                         <InputField label="Qualifikation" name="qualification" value={form.qualification} onChange={handleChange} />
                         <InputField label="Rolle" name="role" value={form.role} onChange={handleChange} />
                     </div>
