@@ -1,52 +1,67 @@
+// src/modules/lagerhaltung/services/artikelService.js
 import { api } from '@/utils/api';
 
+const norm = (s) =>
+    String(s ?? '')
+        .toLowerCase()
+        .replace('ü', 'ue')
+        .replace('ö', 'oe')
+        .replace('ä', 'ae')
+        .replace('ß', 'ss')
+        .trim();
+
+function clientFilterAndSort(rows, { category, state, q } = {}) {
+    const nCategory = category ? String(category) : '';
+    const nState    = state ? norm(state) : '';
+    const nQ        = q ? norm(q) : '';
+
+    const filtered = rows.filter((r) => {
+        const byCat = !nCategory || r.kategorie === nCategory;
+        const bySt  = !nState || norm(r.zustand) === nState;
+        const byQf  = !nQ || norm(r.artikelname).includes(nQ);
+        return byCat && bySt && byQf;
+    });
+
+    // Sortierung  : artikelname asc
+    filtered.sort((a, b) => (a.artikelname || '').localeCompare(b.artikelname || ''));
+    return filtered;
+}
+
 export const artikelService = {
-    getAll: async () => {
-        try {
-            const response = await api.get('/articles');
-            return response.data || [];
-        } catch (error) {
-            console.error('Fehler beim Laden der Artikel:', error);
-            throw error;
-        }
+    // Holt ALLE Artikel aus /artikels (artikels.json) und flacht das Strapi-Format auf einfache Objekte ab
+    async getAll() {
+        const res  = await api.get('/artikels'); // keine Query-Strings im Mockmodus
+        const rows = res?.data?.data ?? res?.data ?? [];
+
+        return rows.map((x) => {
+            const a = x?.attributes ?? x ?? {};
+            return {
+                id:              x?.id ?? a?.id ?? null,
+                artikelname:     a?.artikelname ?? '',
+                einheit:         a?.einheit ?? '',
+                kategorie:       a?.kategorie ?? '',
+                zustand:         a?.zustand ?? '',          // 'fest' | 'fluessig' | 'gas'
+                beschreibung:    a?.beschreibung ?? '',
+                mindestbestand:  Number(a?.mindestbestand ?? 0) || 0,
+                active:          a?.active ?? true
+            };
+        });
     },
 
-    getById: async (id) => {
-        try {
-            const response = await api.get(`/articles/${id}`);
-            return response.data;
-        } catch (error) {
-            console.error(`Fehler beim Laden des Artikels ${id}:`, error);
-            throw error;
-        }
+    //list(filters) –  clientseitige Filterung auf Basis von getAll()
+    async list(filters = {}) {
+        const all = await this.getAll();
+        return clientFilterAndSort(all, filters);
     },
 
-    create: async (artikel) => {
-        try {
-            const response = await api.post('/articles', artikel);
-            return response.data;
-        } catch (error) {
-            console.error('Fehler beim Erstellen des Artikels:', error);
-            throw error;
-        }
+    // Ein einzelner Artikel (ohne separaten /artikels/:id-Mock): lokal aus getAll() ermitteln
+    async getById(id) {
+        const all = await this.getAll();
+        return all.find((a) => String(a.id) === String(id)) ?? null;
     },
 
-    update: async (id, artikel) => {
-        try {
-            const response = await api.put(`/articles/${id}`, artikel);
-            return response.data;
-        } catch (error) {
-            console.error(`Fehler beim Aktualisieren des Artikels ${id}:`, error);
-            throw error;
-        }
-    },
-
-    delete: async (id) => {
-        try {
-            await api.delete(`/articles/${id}`);
-        } catch (error) {
-            console.error(`Fehler beim Löschen des Artikels ${id}:`, error);
-            throw error;
-        }
-    }
+    // Schreib-Operationen im Mockmodus deaktivieren (optional)
+    async create() { throw new Error('Artikel-Create ist im Mockmodus nicht verfügbar.'); },
+    async update() { throw new Error('Artikel-Update ist im Mockmodus nicht verfügbar.'); },
+    async delete() { throw new Error('Artikel-Delete ist im Mockmodus nicht verfügbar.'); }
 };
