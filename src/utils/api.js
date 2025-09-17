@@ -103,19 +103,16 @@ const loadMockModuleData = async (endpoint) => {
         import(
           '../data/mock-module-dummys/pflanzenmanagement/AusgewaelterSchlag/schlagzustand.json'
         ),
-
       '/workers': () =>
         import('../data/mock-module-dummys/personal/workers.json'),
-      // ========================================
-      // NEUE MOCK-MODULE HIER HINZUFÜGEN
-      // ========================================
-      // Beispiel für neue Module:
-      // '/warehouse/products': () => import('../data/mock-module-dummys/lager/products.json'),
-      // '/sales/customers': () => import('../data/mock-module-dummys/vertrieb/customers.json'),
-      // '/hr/employees': () => import('../data/mock-module-dummys/personal/employees.json'),
-      // '/carpool/vehicles': () => import('../data/mock-module-dummys/fuhrpark/vehicles.json'),
-      // Für Anleitung siehe: /data/mock-module-dummys/package.json
-      // Mock Module für die PieCharts
+      '/storage': () =>
+        import('../data/mock-module-dummys/lagerhaltung/storage.json'),
+      '/bestands': () =>
+        import('../data/mock-module-dummys/lagerhaltung/bestands.json'),
+      '/artikels': () =>
+        import('../data/mock-module-dummys/lagerhaltung/artikels.json'),
+      '/buchungen': () =>
+        import('../data/mock-module-dummys/lagerhaltung/buchungen.json'),
     };
 
     const dataLoader = mockDataMap[endpoint];

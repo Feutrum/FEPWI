@@ -1,0 +1,23 @@
+{
+  "data": [
+    { "id": 101, "attributes": { "menge": 1250, "artikel": { "data": { "id": 1, "attributes": { "artikelname": "Kartoffeln (festkochend)", "einheit": "kg" } } }, "lagerort": { "data": { "id": 1, "attributes": { "lagername": "Hauptlager" } } } } },
+    { "id": 102, "attributes": { "menge": 300,  "artikel": { "data": { "id": 2, "attributes": { "artikelname": "Zwiebeln", "einheit": "kg" } } },          "lagerort": { "data": { "id": 1, "attributes": { "lagername": "Hauptlager" } } } } },
+    { "id": 103, "attributes": { "menge": 80,   "artikel": { "data": { "id": 3, "attributes": { "artikelname": "Euro-Paletten", "einheit": "Stk" } } },   "lagerort": { "data": { "id": 1, "attributes": { "lagername": "Hauptlager" } } } } },
+
+    { "id": 201, "attributes": { "menge": 120,  "artikel": { "data": { "id": 4, "attributes": { "artikelname": "Hydrauliköl HLP 46", "einheit": "l" } } }, "lagerort": { "data": { "id": 2, "attributes": { "lagername": "Werkstattlager" } } } } },
+    { "id": 202, "attributes": { "menge": 5000, "artikel": { "data": { "id": 5, "attributes": { "artikelname": "Schrauben M8 x 30", "einheit": "Stk" } } }, "lagerort": { "data": { "id": 2, "attributes": { "lagername": "Werkstattlager" } } } } },
+    { "id": 203, "attributes": { "menge": 12,   "artikel": { "data": { "id": 6, "attributes": { "artikelname": "Ölfilter (Traktor)", "einheit": "Stk" } } }, "lagerort": { "data": { "id": 2, "attributes": { "lagername": "Werkstattlager" } } } } },
+
+    { "id": 301, "attributes": { "menge": 45,   "artikel": { "data": { "id": 7, "attributes": { "artikelname": "Euroboxen 60×40", "einheit": "Stk" } } },   "lagerort": { "data": { "id": 3, "attributes": { "lagername": "Feldcontainer Nord" } } } } },
+    { "id": 302, "attributes": { "menge": 8,    "artikel": { "data": { "id": 8, "attributes": { "artikelname": "Stretchfolie", "einheit": "Rollen" } } },   "lagerort": { "data": { "id": 3, "attributes": { "lagername": "Feldcontainer Nord" } } } } },
+    { "id": 303, "attributes": { "menge": 200,  "artikel": { "data": { "id": 9, "attributes": { "artikelname": "Wasserkanister", "einheit": "l" } } },      "lagerort": { "data": { "id": 3, "attributes": { "lagername": "Feldcontainer Nord" } } } } },
+
+    { "id": 401, "attributes": { "menge": 320,  "artikel": { "data": { "id": 10, "attributes": { "artikelname": "Kopfsalat", "einheit": "Kisten" } } },    "lagerort": { "data": { "id": 4, "attributes": { "lagername": "Kühlhaus 1" } } } } },
+    { "id": 402, "attributes": { "menge": 70,   "artikel": { "data": { "id": 11, "attributes": { "artikelname": "Erdbeeren", "einheit": "Kisten" } } },    "lagerort": { "data": { "id": 4, "attributes": { "lagername": "Kühlhaus 1" } } } } },
+    { "id": 403, "attributes": { "menge": 150,  "artikel": { "data": { "id": 12, "attributes": { "artikelname": "Eisakkus", "einheit": "Stk" } } },        "lagerort": { "data": { "id": 4, "attributes": { "lagername": "Kühlhaus 1" } } } } },
+
+    { "id": 501, "attributes": { "menge": 25,   "artikel": { "data": { "id": 13, "attributes": { "artikelname": "Herbizid A", "einheit": "l" } } },        "lagerort": { "data": { "id": 5, "attributes": { "lagername": "Pflanzenschutz-Lager" } } } } },
+    { "id": 502, "attributes": { "menge": 12,   "artikel": { "data": { "id": 14, "attributes": { "artikelname": "Fungizid B", "einheit": "l" } } },        "lagerort": { "data": { "id": 5, "attributes": { "lagername": "Pflanzenschutz-Lager" } } } } },
+    { "id": 503, "attributes": { "menge": 2,    "artikel": { "data": { "id": 15, "attributes": { "artikelname": "Insektizid C", "einheit": "l" } } },      "lagerort": { "data": { "id": 5, "attributes": { "lagername": "Pflanzenschutz-Lager" } } } } }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "data": [
+    {
+      "calendarWeek": 1,
+      "expectedTime": 0,
+      "doneTime": 0,
+      "difference": 0,
+      "workerID":1
+    },
+    {
+      "calendarWeek": 2,
+      "expectedTime": 0,
+      "doneTime": 0,
+      "difference": 0,
+      "workerID":1
+    },
+    {
+      "calendarWeek": 1,
+      "expectedTime": 0,
+      "doneTime": 0,
+      "difference": 0,
+      "workerID":2
+    },
+    {
+      "calendarWeek": 2,
+      "expectedTime": 0,
+      "doneTime": 0,
+      "difference": 0,
+      "workerID":2
+    }
+  ]
+  
+}
