@@ -115,16 +115,9 @@ const loadMockModuleData = async (endpoint) => {
         import('../data/mock-module-dummys/lagerhaltung/buchungen.json'),
       '/worktimeaccount': () =>
         import('../data/mock-module-dummys/personal/worktimeaccount.json'),
+      '/fuhrpark/vehicles': () =>
+        import('../data/mock-module-dummys/fuhrpark/vehicles.json'),
     };
-
-    // ========================================
-    // NEUE MOCK-MODULE HIER HINZUFÜGEN
-    // ========================================
-    // Beispiel für neue Module:
-    // '/warehouse/products': () => import('../data/mock-module-dummys/lager/products.json'),
-    // '/sales/customers': () => import('../data/mock-module-dummys/vertrieb/customers.json'),
-    // '/hr/employees': () => import('../data/mock-module-dummys/personal/employees.json'),
-    // '/carpool/vehicles': () => import('../data/mock-module-dummys/fuhrpark/vehicles.json'),
 
     const dataLoader = mockDataMap[endpoint];
     if (dataLoader) {
