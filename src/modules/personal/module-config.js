@@ -5,11 +5,11 @@
  */
 
 // Import der tatsächlichen Komponenten
-import TestPage from './pages/MitarbeiterUebersicht.jsx';
 import MitarbeiterUebersicht from './pages/MitarbeiterUebersicht.jsx';
 import MitarbeiterAendern from './pages/MitarbeiterAendern.jsx';
 import MitarbeiterErstellen from './pages/MitarbeiterErstellen.jsx';
 import Arbeitszeitkonto from './pages/ArbeitszeitKonto.jsx';
+import MitarbeiterKalender from './pages/MitarbeiterKalender.jsx';
 
 export const moduleConfig = {
   pages: [
@@ -36,6 +36,12 @@ export const moduleConfig = {
       route: 'neuen-mitarbeiter-anlegen',
       component: 'MitarbeiterErstellen',
       reactComponent: MitarbeiterErstellen,
+    },
+    {
+      name: 'Kalender',
+      route: 'kalender-aenderung',
+      component: 'MitarbeiterKalender',
+      reactComponent: MitarbeiterKalender,
     },
   ],
 
