@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { artikelService } from "@/modules/lagerhaltung/services/artikelService";
-import { bestandService } from "@/modules/lagerhaltung/services/bestandService";
+import { artikelService } from "@/modules/lagerhaltung/services/ArtikelService";
+import { bestandService } from "@/modules/lagerhaltung/services/BestandService";
 
 export default function Warnungen() {
     const [loading, setLoading] = useState(false);
