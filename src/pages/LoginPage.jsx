@@ -118,7 +118,7 @@ export default function LoginPage() {
 
                         <Divider sx={{ my: 2 }} />
                         <Typography variant="caption" color="text.secondary">
-                            Für Entwicklung - wird später entfernt
+                            Offline-fähig für Demo-Zwecke
                         </Typography>
                     </Box>
 

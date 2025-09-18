@@ -1,14 +1,13 @@
 /**
  * PERSONAL MODULE CONFIGURATION
  *
- * Definiert verfügbare Pages für die Sidebar-Navigation UND Component-Mapping
+ * Streamlined configuration with consolidated overview pages
+ * All employee CRUD operations are handled within the main overview pages
  */
 
-// Import der tatsächlichen Komponenten
+// Import der konsolidierten Übersichts-Komponenten
 import MitarbeiterUebersicht from './pages/MitarbeiterUebersicht.jsx';
-import MitarbeiterAendern from './pages/MitarbeiterAendern.jsx';
-import MitarbeiterErstellen from './pages/MitarbeiterErstellen.jsx';
-import Arbeitszeitkonto from './pages/ArbeitszeitKonto.jsx';
+import ArbeitszeitKonto from './pages/ArbeitszeitKonto.jsx';
 import MitarbeiterKalender from './pages/MitarbeiterKalender.jsx';
 
 export const moduleConfig = {
@@ -20,22 +19,10 @@ export const moduleConfig = {
       reactComponent: MitarbeiterUebersicht,
     },
     {
-      name: 'Personal Änderung',
-      route: 'personal-aenderung',
-      component: 'MitarbeiterAendern',
-      reactComponent: MitarbeiterAendern,
-    },
-    {
-      name: 'ArbeitszeitKonto',
+      name: 'Arbeitszeitkonto',
       route: 'personal-arbeitszeitkonto',
       component: 'ArbeitszeitKonto',
-      reactComponent: Arbeitszeitkonto,
-    },
-    {
-      name: 'Neuen Mitarbeiter anlegen',
-      route: 'neuen-mitarbeiter-anlegen',
-      component: 'MitarbeiterErstellen',
-      reactComponent: MitarbeiterErstellen,
+      reactComponent: ArbeitszeitKonto,
     },
     {
       name: 'Kalender',

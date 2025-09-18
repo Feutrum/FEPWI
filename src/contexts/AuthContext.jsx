@@ -256,64 +256,96 @@ export function AuthProvider({ children }) {
      * ADMIN DEMO LOGIN FUNCTION
      *
      * Entwickler-Funktion für schnelles Login mit Admin-Rechten
+     * OFFLINE MODE - Kein API-Call erforderlich
      *
      * ZWECK:
      * - Schnelles Testen ohne manuelle Eingabe
      * - Alle Menüpunkte und Funktionen verfügbar
      * - Simulation von Vollzugriff-Benutzer
+     * - Funktioniert ohne Backend-API
      *
-     * CREDENTIALS:
-     * - Email: 'admin@test.com' (vordefinierte Admin-Credentials)
-     * - Password: 'development' (Development-Passwort)
-     *
-     * WICHTIG: Wird in Produktion entfernt oder deaktiviert
+     * WICHTIG: Für Entwicklung und Demo-Zwecke
      */
     const devLoginAdmin = async () => {
-        // Vordefinierte Admin-Credentials für Development
-        const result = await authService.login({
+        console.log('🔧 DEMO LOGIN: Admin-Modus (offline)');
+
+        // Offline Demo User mit allen Rollen
+        const demoUser = {
+            id: 1,
             email: 'admin@test.com',
-            password: 'development'
-        });
+            username: 'admin',
+            roles: ['farm-management', 'carpool', 'warehouse', 'hr', 'sales'],
+            confirmed: true,
+            blocked: false,
+            provider: 'demo'
+        };
 
-        // Gleiche State-Behandlung wie bei normalem Login
-        if (result.success) {
-            setIsAuthenticated(true);
-            setUser(result.user);
-        }
+        // Demo Token für localStorage
+        const demoToken = 'demo-admin-token-' + Date.now();
 
-        return result;
+        // Speichere Demo-Daten im localStorage (wie bei echtem Login)
+        localStorage.setItem('auth_token', demoToken);
+        localStorage.setItem('user_data', JSON.stringify(demoUser));
+
+        // Setze Authentication State
+        setIsAuthenticated(true);
+        setUser(demoUser);
+
+        console.log('✅ Demo Login erfolgreich:', demoUser.email);
+
+        return {
+            success: true,
+            user: demoUser,
+            token: demoToken
+        };
     };
 
     /**
      * LIMITED DEMO LOGIN FUNCTION
      *
      * Entwickler-Funktion für Login mit eingeschränkten Rechten
+     * OFFLINE MODE - Kein API-Call erforderlich
      *
      * ZWECK:
      * - Testen der rollenbasierten Zugriffskontrolle
      * - Nur bestimmte Menüpunkte sichtbar (warehouse & sales)
      * - Simulation von eingeschränktem Benutzer
-     *
-     * CREDENTIALS:
-     * - Email: 'worker@test.com' (Worker-Role Credentials)
-     * - Password: 'development' (Development-Passwort)
+     * - Funktioniert ohne Backend-API
      *
      * TESTING: Verifiziert dass Menü-Beschränkungen funktionieren
      */
     const devLoginLimited = async () => {
-        // Vordefinierte Worker-Credentials für Development
-        const result = await authService.login({
+        console.log('🔧 DEMO LOGIN: Limited-Modus (offline)');
+
+        // Offline Demo User mit eingeschränkten Rollen
+        const demoUser = {
+            id: 2,
             email: 'worker@test.com',
-            password: 'development'
-        });
+            username: 'worker',
+            roles: ['warehouse', 'sales'], // Nur Lager und Vertrieb
+            confirmed: true,
+            blocked: false,
+            provider: 'demo'
+        };
 
-        // State-Update bei erfolgreichem Login
-        if (result.success) {
-            setIsAuthenticated(true);
-            setUser(result.user);
-        }
+        // Demo Token für localStorage
+        const demoToken = 'demo-worker-token-' + Date.now();
 
-        return result;
+        // Speichere Demo-Daten im localStorage (wie bei echtem Login)
+        localStorage.setItem('auth_token', demoToken);
+        localStorage.setItem('user_data', JSON.stringify(demoUser));
+
+        // Setze Authentication State
+        setIsAuthenticated(true);
+        setUser(demoUser);
+
+        console.log('✅ Demo Login erfolgreich:', demoUser.email);
+
+        return {
+            success: true,
+            user: demoUser,
+            token: demoToken
+        };
     };
 
     /**

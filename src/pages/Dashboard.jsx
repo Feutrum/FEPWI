@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import MainLayout from "../layouts/MainLayout";
+import MainLayoutModern from "../layouts/MainLayoutModern";
 import { useAuth } from "../contexts/AuthContext";
 
 // Module Imports
@@ -9,6 +9,9 @@ import FuhrparkModule from '../modules/fuhrpark';
 import LagerhaltungModule from '../modules/lagerhaltung';
 import PersonalModule from '../modules/personal';
 import VertriebModule from '../modules/vertrieb';
+
+// Dashboard Components
+import MainDashboardModern from '../components/dashboard/MainDashboardModern';
 
 export default function Dashboard() {
     const { user, logout } = useAuth();
@@ -44,12 +47,7 @@ export default function Dashboard() {
             case 'vertrieb':
                 return <VertriebModule activePage={activePage} />;
             default:
-                return (
-                    <div>
-                        <h2>Willkommen im Dashboard</h2>
-                        <p>Wählen Sie ein Modul aus der Navigation oben.</p>
-                    </div>
-                );
+                return <MainDashboardModern onModuleChange={handleModuleChange} />;
         }
     };
 
@@ -57,15 +55,15 @@ export default function Dashboard() {
 
 
     return (
-        <MainLayout
+        <MainLayoutModern
             showFullHeader={true}
             user={user}
             onLogout={logout}
             onModuleChange={handleModuleChange}
             activeModule={activeModule}
-            onPageChange={handlePageChange}  // NEU: Page-Handler weiterleiten
+            onPageChange={handlePageChange}
         >
             {renderActiveModule()}
-        </MainLayout>
+        </MainLayoutModern>
     );
 }

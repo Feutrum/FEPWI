@@ -2,34 +2,20 @@
 /**
  * FUHRPARK MODULE CONFIGURATION
  *
- * Definiert verfügbare Pages für die Sidebar-Navigation UND Component-Mapping
+ * Streamlined configuration with consolidated vehicle overview page
+ * All vehicle operations (add, edit, reserve, maintenance, fuel) are handled within the main overview
  */
 
-// Import der tatsächlichen Komponenten
-import AddVehicle from './pages/AddVehicle.jsx';
-import VehicleOverview from './pages/VehicleOverview.jsx';
-import AddVehicleEquipment from './pages/AddVehicleEquipment.jsx';
-
+// Import der konsolidierten Fahrzeugübersicht-Komponente
+import VehicleOverview from './pages/VehicleOverviewModern.jsx';
 
 export const moduleConfig = {
     pages: [
         {
-            name: 'Fuhrpark Übersicht',
-            route: 'fuhrpark-uebersicht',
+            name: 'Fahrzeugübersicht',
+            route: 'vehicle-overview',
             component: 'VehicleOverview',
             reactComponent: VehicleOverview
-        },
-        {
-            name: 'Fahrzeug hinzufügen',
-            route: 'fahrzeug-hinzufuegen',
-            component: 'AddVehicle',
-            reactComponent: AddVehicle
-        },
-        {
-            name: 'Ausstattung hinzufügen',
-            route: 'ausstattung-hinzufuegen',
-            component: 'AddVehicleEquipment',
-            reactComponent: AddVehicleEquipment
         }
     ],
     defaultPage: 'VehicleOverview'

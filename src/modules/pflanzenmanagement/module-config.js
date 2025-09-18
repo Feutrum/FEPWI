@@ -1,55 +1,35 @@
 /**
  * PFLANZENMANAGEMENT MODULE CONFIGURATION
  *
- * Definiert verfügbare Pages für die Sidebar-Navigation UND Component-Mapping
+ * Modern configuration using Shadcn components
+ * Consolidated overview pages with integrated CRUD operations
  */
 
-// Import der tatsächlichen Komponenten
-import KalenderAktivitaeten from './pages/KalenderAktivitaeten';
-import SchlagUebersicht from './pages/SchlagUebersicht';
+// Import modern components
+import KalenderAktivitaetenModern from './pages/KalenderAktivitaetenModern';
+import SchlagUebersichtModern from './pages/SchlagUebersichtModern';
 import Auswertungen from './pages/Auswertungen';
-import AnbauUebersicht from './pages/AnbauUebersicht';
-import Ausgewaelterschlag from './pages/Ausgewaelterschlag';
-import Schlaghinzufügen from './pages/Schlaghinzufuegen';
 
 export const moduleConfig = {
     pages: [
         {
-            name: 'Schlag Übersicht',
-            route: 'Schlag uebersicht',
-            component: 'SchlagUebersicht',
-            reactComponent: SchlagUebersicht
-        },
-        {
-            name: 'Ausgewählter Schlag',
-            route: 'Ausgewaelter schlag',
-            component: 'Ausgewaelterschlag',
-            reactComponent: Ausgewaelterschlag
-        },
-        {
-            name: 'Anbau Übersicht',
-            route: 'anbau-übersicht',
-            component: 'AnbauUebersicht',
-            reactComponent: AnbauUebersicht
+            name: 'Feld Übersicht',
+            route: 'feld-uebersicht',
+            component: 'SchlagUebersichtModern',
+            reactComponent: SchlagUebersichtModern
         },
         {
             name: 'Kalender & Aktivitäten',
             route: 'kalender-aktivitaeten',
-            component: 'KalenderAktivitaeten',
-            reactComponent: KalenderAktivitaeten
+            component: 'KalenderAktivitaetenModern',
+            reactComponent: KalenderAktivitaetenModern
         },
         {
             name: 'Auswertungen',
             route: 'auswertungen',
             component: 'Auswertungen',
             reactComponent: Auswertungen
-        },
-        {
-            name: 'Schlag hinzufügen',
-            route: 'schlaghinzufuegen',
-            component: 'Schlaghinzufuegen',
-            reactComponent: Schlaghinzufügen
-        },
+        }
     ],
-    defaultPage: 'KalenderAktivitaeten'
+    defaultPage: 'SchlagUebersichtModern'
 };

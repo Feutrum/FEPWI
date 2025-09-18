@@ -17,14 +17,16 @@ export const authService = {
     login: async (credentials) => {
         try {
             // API-Aufruf an Strapi Authentication Endpoint
-            const response = await api.post('/auth/local', {
+            const response = await api.auth.login({
                 identifier: credentials.email,
                 password: credentials.password
             });
 
             if (response.jwt) {
-                // Speichere Token und Benutzerdaten im localStorage
-                localStorage.setItem('auth_token', response.jwt);
+                // Update token in API service
+                api.auth.updateToken(response.jwt);
+
+                // Speichere Benutzerdaten im localStorage (Token wird von BaseApiService verwaltet)
                 localStorage.setItem('user_data', JSON.stringify(response.user));
 
                 return {
@@ -49,20 +51,52 @@ export const authService = {
 
     /**
      * Login mit vordefinierten Entwicklungs-Credentials
+     * Falls API verfügbar ist, wird echte Authentifizierung versucht
      * @returns {Promise<Object>} Gleiche Struktur wie login()
      */
     devLogin: async () => {
-        return await authService.login({
-            email: 'dev@test.com',
-            password: 'development'
-        });
+        try {
+            // Versuche zuerst echte API-Authentifizierung
+            return await authService.login({
+                email: 'dev@test.com',
+                password: 'development'
+            });
+        } catch (error) {
+            // Falls API nicht verfügbar, verwende Offline-Demo-Modus
+            console.log('🔧 API not available, using offline demo mode');
+
+            const demoUser = {
+                id: 1,
+                email: 'dev@test.com',
+                username: 'dev',
+                roles: ['farm-management', 'carpool', 'warehouse', 'hr', 'sales'],
+                confirmed: true,
+                blocked: false,
+                provider: 'offline-demo'
+            };
+
+            const demoToken = 'offline-dev-token-' + Date.now();
+
+            // Speichere Demo-Daten im localStorage
+            localStorage.setItem('auth_token', demoToken);
+            localStorage.setItem('user_data', JSON.stringify(demoUser));
+
+            return {
+                success: true,
+                user: demoUser,
+                token: demoToken
+            };
+        }
     },
 
     /**
      * Meldet den aktuellen Benutzer ab und löscht gespeicherte Daten
      */
     logout: () => {
-        localStorage.removeItem('auth_token');
+        // Clear token in API service
+        api.auth.updateToken(null);
+
+        // Clear user data
         localStorage.removeItem('user_data');
         console.log('👋 Logout erfolgreich');
     },
@@ -85,7 +119,7 @@ export const authService = {
 
             return null;
 
-        } catch (error) {
+        } catch (_error) {
             // Cleanup bei fehlerhaften Daten
             authService.logout();
             return null;
@@ -99,5 +133,26 @@ export const authService = {
     isTokenValid: () => {
         const token = localStorage.getItem('auth_token');
         return !!token;
+    },
+
+    /**
+     * Validiert das aktuelle Token beim Backend
+     * @returns {Promise<Object>} Validation result mit user data
+     */
+    validateToken: async () => {
+        try {
+            const response = await api.auth.validateToken();
+            return {
+                success: true,
+                user: response
+            };
+        } catch (error) {
+            // Token ungültig - cleanup durchführen
+            authService.logout();
+            return {
+                success: false,
+                error: error.message
+            };
+        }
     }
 };
