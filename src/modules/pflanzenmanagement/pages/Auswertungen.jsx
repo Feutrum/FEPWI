@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import YearSelector from '../components/auswertung-utils/YearSelector.jsx';
-import Kopfzeile2 from '../components/auswertung-utils/Kopfzeile2.jsx';
-import PieCharts from '../components/auswertung-utils/PieCharts.jsx';
+import YearSelector from '../components/Auswertung-utils/YearSelector.jsx';
+import Kopfzeile2 from '../components/Auswertung-utils/Kopfzeile2.jsx';
+import PieCharts from '../components/Auswertung-utils/PieCharts.jsx';
 import { kopfzeile2Service } from '../services/kopfzeile2Service';
 
 const Auswertung = () => {
