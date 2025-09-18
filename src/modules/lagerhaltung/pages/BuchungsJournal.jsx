@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { artikelService } from "@/modules/lagerhaltung/services/artikelService";
-import { lagerService } from "@/modules/lagerhaltung/services/lagerService";
+import { artikelService } from "@/modules/lagerhaltung/services/ArtikelService";
+import { lagerService } from "@/modules/lagerhaltung/services/LagerService";
 import { buchungService } from "@/modules/lagerhaltung/services/BuchungService";
 
 export default function BuchungsJournal() {
