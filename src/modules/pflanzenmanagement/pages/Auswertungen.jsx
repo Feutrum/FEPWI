@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import YearSelector from '../components/auswertung-utils/YearSelector';
+import YearSelector from '../components/auswertung-utils/YearSelector.jsx';
 import Kopfzeile2 from '../components/auswertung-utils/Kopfzeile2';
 import PieCharts from '../components/auswertung-utils/PieCharts';
 import { kopfzeile2Service } from '../services/kopfzeile2Service';
