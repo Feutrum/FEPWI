@@ -21,16 +21,38 @@ export default function MitarbeiterKalender() {
 
   // Mitarbeiter laden
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        const data = await mitarbeiterService.getAll();
-        setEmployees(data);
-      } catch (err) {
-        console.error("Fehler beim Laden der Mitarbeiter:", err);
-      }
-    };
-    loadData();
-  }, []);
+  try {
+    const savedEntries = JSON.parse(localStorage.getItem("calendarEntries")) || [];
+    setEntries(savedEntries);
+  } catch {
+    setEntries([]);
+  }
+
+  const loadData = async () => {
+    try {
+      const apiData = await mitarbeiterService.getAll();
+      const localData = JSON.parse(localStorage.getItem("employees")) || [];
+
+      const merged = [...apiData];
+
+      localData.forEach(localEmp => {
+        const index = merged.findIndex(e => e.id === localEmp.id);
+        if (index !== -1) {
+          merged[index] = localEmp;
+        } else {
+          merged.push(localEmp);
+        }
+      });
+
+      setEmployees(merged);
+    } catch (err) {
+      console.error("Fehler beim Laden der Mitarbeiter:", err);
+    }
+  };
+
+  loadData();
+
+}, []);
 
   // Kalender vorbereiten
   const startOfMonth = currentDate.startOf("month");
@@ -47,36 +69,50 @@ export default function MitarbeiterKalender() {
   const handleSaveEntry = () => {
     if (!selectedDay || !selectedEmployee || !formData.name) return;
 
+    let updatedEntries;
+
     if (formData.id) {
       // Bearbeiten
-      setEntries(
-        entries.map((e) =>
-          e.id === formData.id
-            ? { ...formData, date: selectedDay.toDate(), person: selectedEmployee }
-            : e
-        )
+      updatedEntries = entries.map((e) =>
+        e.id === formData.id
+          ? { ...formData, date: selectedDay.toDate(), person: selectedEmployee }
+          : e
       );
     } else {
       // Neu
       const newEntry = {
         id: Date.now(),
         name: formData.name,
-        date: selectedDay.toDate(),
+        date: selectedDay.format("YYYY-MM-DD"),
         eintrag: formData.eintrag,
         person: selectedEmployee,
         color: formData.color,
         arbeitszeit: formData.arbeitszeit,
       };
-      setEntries([...entries, newEntry]);
+
+      updatedEntries = [...entries, newEntry];
     }
 
+    setEntries(updatedEntries);
+
+    localStorage.setItem("calendarEntries", JSON.stringify(updatedEntries));
+
     setShowForm(false);
-    setFormData({ id: null, name: "", eintrag: "", color: "#90ee90", arbeitszeit: 0 });
+    setFormData({
+      id: null,
+      name: "",
+      eintrag: "",
+      color: "#90ee90",
+      arbeitszeit: 0,
+    });
   };
 
   // Löschen
   const handleDelete = (id) => {
-    setEntries(entries.filter((e) => e.id !== id));
+    const updated = entries.filter((e) => e.id !== id);
+
+    setEntries(updated);
+    localStorage.setItem("calendarEntries", JSON.stringify(updated));
   };
 
   // Bearbeiten vorbereiten
@@ -146,9 +182,8 @@ export default function MitarbeiterKalender() {
                 <div
                   key={i}
                   onClick={() => dateObj && setSelectedDay(dateObj)}
-                  className={`kalender-cell ${isToday ? "today" : ""} ${
-                    isSelected ? "selected" : ""
-                  }`}
+                  className={`kalender-cell ${isToday ? "today" : ""} ${isSelected ? "selected" : ""
+                    }`}
                 >
                   <div className="day-number">{day}</div>
                   {dayEntries.map((entry) => (

@@ -2,12 +2,12 @@ import { api } from '@/utils/api';
 
 export const workTimeAccountService = {
     getAll: async () => {
-        try {
-            const response = await api.get('/worktimeaccount');
-            return response.data || [];
-        } catch (error) {
-            console.error('Fehler beim Laden des Arbeitszeitkontos:', error);
-            throw error;
-        }
+        const data = localStorage.getItem("workTimeData");
+        return data ? JSON.parse(data) : [];
+    },
+
+    save: async (data) => {
+        localStorage.setItem("workTimeData", JSON.stringify(data));
+        return data;
     }
 };

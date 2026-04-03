@@ -5,16 +5,32 @@ export default function MitarbeiterUebersicht() {
     const [mitarbeiter, setMitarbeiter] = useState([]);
 
     useEffect(() => {
-        const loadData = async () => {
-            try {
-                const data = await mitarbeiterService.getAll(); // API-Aufruf
-                setMitarbeiter(data);
-            } catch (err) {
-                console.error('Fehler beim Laden der Mitarbeiter:', err);
-            }
-        };
-        loadData();
-    }, []);
+    const loadData = async () => {
+        try {
+            const apiData = await mitarbeiterService.getAll();
+            const localData = JSON.parse(localStorage.getItem("employees")) || [];
+
+            // API + localStorage zusammenführen
+            const merged = [...apiData];
+
+            localData.forEach(localEmp => {
+                const index = merged.findIndex(e => e.id === localEmp.id);
+                if (index !== -1) {
+                    merged[index] = localEmp; // überschreiben
+                } else {
+                    merged.push(localEmp); // neu hinzufügen
+                }
+            });
+
+            setMitarbeiter(merged);
+
+        } catch (err) {
+            console.error('Fehler beim Laden der Mitarbeiter:', err);
+        }
+    };
+
+    loadData();
+}, []);
 
 
     return (

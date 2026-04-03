@@ -42,24 +42,43 @@ export default function MitarbeiterErstellen() {
 
     // Wenn der User das Formular absendet, werden die Daten an den Service geschickt und das Formular zurückgesetzt.
     const handleSubmit = async e => {
-        e.preventDefault();
-        try {
-            await mitarbeiterService.create(form);
-            setMessage('Mitarbeiter erfolgreich angelegt!');
-            setForm({
-                name: '',
-                birthdate: '',
-                adress: '',
-                entryDate: '',
-                salary: 2000.00,
-                workTime: 40,
-                qualification: '',
-                role: ''
-            });
-        } catch {
-            setMessage('Fehler beim Anlegen des Mitarbeiters.');
-        }
-    };
+    e.preventDefault();
+
+    try {
+        // bestehenden Speicher laden
+        const existing = JSON.parse(localStorage.getItem("employees")) || [];
+
+        // neuen Mitarbeiter mit ID erstellen
+        const newEmployee = {
+            ...form,
+            id: Date.now() // wichtig! eindeutige ID
+        };
+
+        // hinzufügen
+        const updated = [...existing, newEmployee];
+
+        // speichern
+        localStorage.setItem("employees", JSON.stringify(updated));
+
+        setMessage('Mitarbeiter erfolgreich angelegt!');
+
+        // Formular zurücksetzen
+        setForm({
+            name: '',
+            birthdate: '',
+            adress: '',
+            entryDate: '',
+            salary: 2000.00,
+            workTime: 40,
+            qualification: '',
+            role: ''
+        });
+
+    } catch (err) {
+        console.error(err);
+        setMessage('Fehler beim Anlegen des Mitarbeiters.');
+    }
+};
 
     return (
         <div style={pageLayout}>

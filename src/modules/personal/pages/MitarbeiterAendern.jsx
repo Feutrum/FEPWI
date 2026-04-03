@@ -10,12 +10,29 @@ export default function EmployeeForm() {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const data = await mitarbeiterService.getAll(); // API-Aufruf
-        setMitarbeiter(data);
+        const apiData = await mitarbeiterService.getAll();
+
+        const localData = JSON.parse(localStorage.getItem("employees")) || [];
+
+        // lokale Daten überschreiben API-Daten (wichtig!)
+        const merged = [...apiData];
+
+        localData.forEach(localEmp => {
+          const index = merged.findIndex(e => e.id === localEmp.id);
+          if (index !== -1) {
+            merged[index] = localEmp;
+          } else {
+            merged.push(localEmp);
+          }
+        });
+
+        setMitarbeiter(merged);
+
       } catch (err) {
         console.error('Fehler beim Laden der Mitarbeiter:', err);
       }
     };
+
     loadData();
   }, []);
 
@@ -73,11 +90,24 @@ export default function EmployeeForm() {
 
   // speichern
   const handleSave = () => {
-    if (formData) {
-      const entry = { ...formData, savedAt: new Date().toLocaleString() };
-      setSavedData((prev) => [...prev, entry]);
-      console.log("Gespeichert:", entry);
-    }
+    if (!formData) return;
+
+    const existing = JSON.parse(localStorage.getItem("employees")) || [];
+
+    // Mitarbeiter updaten oder hinzufügen
+    const updated = existing.some(e => e.id === formData.id)
+      ? existing.map(e => e.id === formData.id ? formData : e)
+      : [...existing, formData];
+
+    localStorage.setItem("employees", JSON.stringify(updated));
+    setMitarbeiter((prev) => {
+      return prev.map(e => e.id === formData.id ? formData : e);
+    });
+
+    const entry = { ...formData, savedAt: new Date().toLocaleString() };
+    setSavedData((prev) => [...prev, entry]);
+
+    console.log("Gespeichert:", entry);
   };
 
   // löschen
@@ -86,7 +116,11 @@ export default function EmployeeForm() {
 
     try {
       await mitarbeiterService.delete(id);
-      // Nach erfolgreichem Löschen: Liste aktualisieren
+
+      const existing = JSON.parse(localStorage.getItem("employees")) || [];
+      const updated = existing.filter(e => e.id !== id);
+      localStorage.setItem("employees", JSON.stringify(updated));
+
       setMitarbeiter((prev) => prev.filter((m) => m.id !== id));
     } catch (err) {
       console.error("Fehler beim Löschen:", err);
