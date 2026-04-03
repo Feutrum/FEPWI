@@ -10,15 +10,15 @@ export default function MitarbeiterUebersicht() {
             const apiData = await mitarbeiterService.getAll();
             const localData = JSON.parse(localStorage.getItem("employees")) || [];
 
-            // API + localStorage zusammenführen
+            // Die Daten aus dem API und localStorage werden zusammengeführt
             const merged = [...apiData];
 
             localData.forEach(localEmp => {
                 const index = merged.findIndex(e => e.id === localEmp.id);
                 if (index !== -1) {
-                    merged[index] = localEmp; // überschreiben
+                    merged[index] = localEmp; 
                 } else {
-                    merged.push(localEmp); // neu hinzufügen
+                    merged.push(localEmp); 
                 }
             });
 

@@ -51,7 +51,7 @@ export default function MitarbeiterErstellen() {
         // neuen Mitarbeiter mit ID erstellen
         const newEmployee = {
             ...form,
-            id: Date.now() // wichtig! eindeutige ID
+            id: Date.now()
         };
 
         // hinzufügen

@@ -30,6 +30,7 @@ export default function MitarbeiterKalender() {
 
   const loadData = async () => {
     try {
+      //Mitarbeiter Daten aus dem localStorage laden
       const apiData = await mitarbeiterService.getAll();
       const localData = JSON.parse(localStorage.getItem("employees")) || [];
 
@@ -94,7 +95,7 @@ export default function MitarbeiterKalender() {
     }
 
     setEntries(updatedEntries);
-
+    //Änderungen lokal speichern
     localStorage.setItem("calendarEntries", JSON.stringify(updatedEntries));
 
     setShowForm(false);
@@ -110,7 +111,7 @@ export default function MitarbeiterKalender() {
   // Löschen
   const handleDelete = (id) => {
     const updated = entries.filter((e) => e.id !== id);
-
+    //Daten auch aus dem localStorage entfernen
     setEntries(updated);
     localStorage.setItem("calendarEntries", JSON.stringify(updated));
   };

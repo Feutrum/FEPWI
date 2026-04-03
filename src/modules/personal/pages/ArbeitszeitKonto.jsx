@@ -16,6 +16,7 @@ export default function ArbeitszeitKonto() {
   useEffect(() => {
     const loadData = async () => {
       try {
+        //Hier werden die Mitarbeiterdaten aus dem localStorage geholt
         const apiData = await mitarbeiterService.getAll();
         const localData = JSON.parse(localStorage.getItem("employees")) || [];
 
@@ -74,7 +75,7 @@ export default function ArbeitszeitKonto() {
         vacationDays: sheet.vacationDays,
         vacationHours: sheet.vacationHours
       }));
-
+      //Hier werden die Daten lokal im Browser gespeicht um sie zu persistieren.
       const existing = JSON.parse(localStorage.getItem("workTimeData")) || [];
 
       const updated = [
@@ -133,6 +134,7 @@ export default function ArbeitszeitKonto() {
 
     const newSheets = employeeSheets.map(m => {
       if (m.id === id) {
+        //Die Urlaubstage werden in Stunden umgerechnet
         const hoursPerDay = employeeFormData.workTime / 5;
 
         return {
@@ -207,6 +209,7 @@ export default function ArbeitszeitKonto() {
               {(() => {
                 const sortedSheets = [...employeeSheets].sort((a, b) => b.calendarWeek - a.calendarWeek);
                 const diffs = sortedSheets.map(
+                  //Hier wird die Differenz der zu erlidgenden und erledigten Arbeitszeit berechnet
                   i => (i.doneTime + (i.sickTime ?? 0) + (i.vacationHours ?? 0)) - i.expectedTime
                 );
                 let diffSum = 0;

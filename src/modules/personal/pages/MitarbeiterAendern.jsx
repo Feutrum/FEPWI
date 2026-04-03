@@ -11,7 +11,7 @@ export default function EmployeeForm() {
     const loadData = async () => {
       try {
         const apiData = await mitarbeiterService.getAll();
-
+        //Vorhandene Daten laden
         const localData = JSON.parse(localStorage.getItem("employees")) || [];
 
         // lokale Daten überschreiben API-Daten (wichtig!)
@@ -87,18 +87,18 @@ export default function EmployeeForm() {
 
     setFormData((prev) => ({ ...prev, [name]: newValue }));
   };
-
+  
   // speichern
   const handleSave = () => {
     if (!formData) return;
-
+  
     const existing = JSON.parse(localStorage.getItem("employees")) || [];
 
     // Mitarbeiter updaten oder hinzufügen
     const updated = existing.some(e => e.id === formData.id)
       ? existing.map(e => e.id === formData.id ? formData : e)
       : [...existing, formData];
-
+    //lokal speichern
     localStorage.setItem("employees", JSON.stringify(updated));
     setMitarbeiter((prev) => {
       return prev.map(e => e.id === formData.id ? formData : e);
